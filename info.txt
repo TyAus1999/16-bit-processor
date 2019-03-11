@@ -1,0 +1,1 @@
+5 16 bit registers each with high low as well as a stack pointer
