@@ -1,0 +1,148 @@
+16 bit
+Registers: ax,bx,cx,dx, without x is low byte
+	mov ax,bx
+	mov ax,cx
+	mov ax,dx
+	mov a,b
+	mov a,c
+	mov a,d
+	
+	mov bx,ax
+	mov bx,cx
+	mov bx,dx
+	mov b,a
+	mov b,c
+	mov b,d
+	
+	mov cx,ax
+	mov cx,bx
+	mov cx,dx
+	mov c,a
+	mov c,b
+	mov c,d
+	
+	mov dx,ax
+	mov dx,bx
+	mov dx,cx
+	mov d,a
+	mov d,b
+	mov d,c
+	
+	mov ax,value16
+	mov bx,value16
+	mov cx,value16
+	mov dx,value16
+	
+	mov al,value8
+	mov ah,value8
+	
+Memory access:
+	mov [dx],ax
+	mov [dx],bx
+	mov [dx],cx
+	mov [dx],a
+	mov [dx],b
+	mov [dx],c
+	
+Arithmatic: src=src<Math Operation>reg
+	add ax,ax
+	add ax,bx
+	add ax,cx
+	add ax,dx
+	
+	add bx,ax
+	add bx,bx
+	add bx,cx
+	add bx,dx
+	
+	add cx,ax
+	add cx,bx
+	add cx,cx
+	add cx,dx
+	
+	add dx,ax
+	add dx,bx
+	add dx,cx
+	add dx,dx
+	
+	sub ax,ax
+	sub ax,bx
+	sub ax,cx
+	sub ax,dx
+	
+	sub bx,ax
+	sub bx,bx
+	sub bx,cx
+	sub bx,dx
+	
+	sub cx,ax
+	sub cx,bx
+	sub cx,cx
+	sub cx,dx
+	
+	sub dx,ax
+	sub dx,bx
+	sub dx,cx
+	sub dx,dx
+	
+Comparisons:
+	cmp ax,bx
+	cmp ax,cx
+	cmp ax,dx
+	cmp a,b
+	cmp a,c
+	cmp a,d
+	
+	cmp bx,ax
+	cmp bx,cx
+	cmp bx,dx
+	cmp b,a
+	cmp b,c
+	cmp b,d
+	
+	cmp cx,ax
+	cmp cx,bx
+	cmp cx,dx
+	cmp c,a
+	cmp c,b
+	cmp c,d
+	
+	cmp dx,ax
+	cmp dx,bx
+	cmp dx,cx
+	cmp d,a
+	cmp d,b
+	cmp d,c
+	
+	cmp ax,value
+	cmp bx,value
+	cmp cx,value
+	cmp dx,value
+	
+Jumps:
+	jmp [a]
+	jmp value
+	
+	jeq [a]
+	jeq value
+
+	jne [a]
+	jne value
+
+	jl [a]
+	jl value
+
+	jg [a]
+	jg value
+
+Boolean:
+	xor a,a
+	xor a,b
+	xor a,c
+	xor a,d
+
+Graphics instructions:
+	
+	
+	
+	
