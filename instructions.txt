@@ -29,11 +29,11 @@ Registers: ax,bx,cx,dx, without x is low byte
 	mov d,c
 	
 	/*done framework inplace
-	mov ax,value16
-	mov bx,value16
-	mov cx,value16
-	mov dx,value16
-	mov sp,value16
+	mov ax,value16	0x01 xx xx
+	mov bx,value16	0x02 xx xx
+	mov cx,value16	0x03 xx xx
+	mov sp,value16	0x04 xx xx
+	mov ip,value16	0x05 xx xx
 	
 	mov al,value8	
 	mov ah,value8	
