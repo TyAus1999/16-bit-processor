@@ -29,14 +29,22 @@ Registers: ax,bx,cx,dx, without x is low byte
 	mov d,c
 	
 	/*done framework inplace
-	mov ax,value16	0x01 xx xx
-	mov bx,value16	0x02 xx xx
-	mov cx,value16	0x03 xx xx
-	mov sp,value16	0x04 xx xx
-	mov ip,value16	0x05 xx xx
+	mov ax,value16	0x01 xx xx ~
+	mov bx,value16	0x02 xx xx ~
+	mov cx,value16	0x03 xx xx ~
+	mov dx,value16	0x04 xx xx ~
+	mov sp,value16	0x05 xx xx ~
 	
-	mov al,value8	
-	mov ah,value8	
+	mov al,value8	0x06 xx ~
+	mov ah,value8	0x07 xx ~
+	mov bl,value8	0x08 xx ~
+	mov bh,value8	0x09 xx ~
+	mov cl,value8	0x0a xx ~
+	mov ch,value8	0x0b xx ~
+	mov dl,value8  	0x0c xx
+	mov dh,value8	0x0d xx
+	mov spl,value8	0x0e xx
+	mov sph,value8	0x0f xx
 	*/
 	
 Memory access:
