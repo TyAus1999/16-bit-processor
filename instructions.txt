@@ -28,7 +28,7 @@ Registers: ax,bx,cx,dx, without x is low byte
 	mov d,b
 	mov d,c
 	
-	/*done framework inplace
+	/*done
 	mov ax,value16	0x01 xx xx ~
 	mov bx,value16	0x02 xx xx ~
 	mov cx,value16	0x03 xx xx ~
@@ -41,10 +41,10 @@ Registers: ax,bx,cx,dx, without x is low byte
 	mov bh,value8	0x09 xx ~
 	mov cl,value8	0x0a xx ~
 	mov ch,value8	0x0b xx ~
-	mov dl,value8  	0x0c xx
-	mov dh,value8	0x0d xx
-	mov spl,value8	0x0e xx
-	mov sph,value8	0x0f xx
+	mov dl,value8  	0x0c xx ~
+	mov dh,value8	0x0d xx ~
+	mov spl,value8	0x0e xx ~
+	mov sph,value8	0x0f xx ~
 	*/
 	
 Memory access:
@@ -125,32 +125,81 @@ Comparisons:
 	cmp d,b
 	cmp d,c
 	
-	cmp ax,value
-	cmp bx,value
-	cmp cx,value
-	cmp dx,value
+	cmp ax,value16
+	cmp bx,value16
+	cmp cx,value16
+	cmp dx,value16
 	
 Jumps:
-	jmp [a]
-	jmp value
+	jmp [ax]	0x10 ~
+	jmp value16	0x11 xx xx
 	
-	jeq [a]
-	jeq value
+	jeq [ax]
+	jeq value16
 
-	jne [a]
-	jne value
+	jne [ax]
+	jne value16
 
-	jl [a]
-	jl value
+	jl [ax]
+	jl value16
 
-	jg [a]
-	jg value
+	jg [ax]
+	jg value16
 
 Boolean:
-	xor a,a
-	xor a,b
-	xor a,c
-	xor a,d
+	xor ax,ax
+	xor ax,bx
+	xor ax,cx
+	xor ax,dx
+	
+	xor bx,ax
+	xor bx,bx
+	xor bx,cx
+	xor bx,dx
+	
+	xor cx,ax
+	xor cx,bx
+	xor cx,cx
+	xor cx,dx
+	
+	or	ax,bx
+	or	ax,cx
+	or	ax,dx
+	
+	or	bx,ax
+	or 	bx,cx
+	or	bx,dx
+	
+	or	cx,ax
+	or 	cx,bx
+	or 	cx,dx
+	
+	or 	dx,ax
+	or 	dx,bx
+	or	dx,cx
+	
+	and	ax,bx
+	and	ax,cx
+	and ax,dx
+	
+	and bx,ax
+	and bx,cx
+	and bx,dx
+	
+	and cx,ax
+	and cx,bx
+	and cx,dx
+	
+	and dx,ax
+	and dx,bx
+	and dx,cx
+	
+	neg ax
+	neg	bx
+	neg cx
+	neg dx
+	
+	
 
 Graphics instructions:
 	
