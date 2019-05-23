@@ -1,6 +1,6 @@
 16 bit
 Registers: ax,bx,cx,dx, without x is low byte
-	mov ax,value16	0x01 xx xx ~
+	mov ax,value16	0x01 xx xx ~ 2
 	mov bx,value16	0x02 xx xx ~
 	mov cx,value16	0x03 xx xx ~
 	mov dx,value16	0x04 xx xx ~
