@@ -2029,6 +2029,7 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     </comp>
     <comp lib="1" loc="(460,340)" name="AND Gate">
       <a name="inputs" val="8"/>
+      <a name="label" val="mov ax,value16"/>
       <a name="negate1" val="true"/>
       <a name="negate2" val="true"/>
       <a name="negate3" val="true"/>
