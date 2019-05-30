@@ -1,10 +1,10 @@
 16 bit
 Registers: ax,bx,cx,dx, without x is low byte
-	mov ax,value16	0x01 xx xx ~ 2
-	mov bx,value16	0x02 xx xx ~
-	mov cx,value16	0x03 xx xx ~
-	mov dx,value16	0x04 xx xx ~
-	mov sp,value16	0x05 xx xx ~
+	mov ax,value16	0x01 xx xx ~ 	2 	3cycles
+	mov bx,value16	0x02 xx xx ~	2	3cycles
+	mov cx,value16	0x03 xx xx ~	2	3cycles
+	mov dx,value16	0x04 xx xx ~	2 	3cycles
+	mov sp,value16	0x05 xx xx ~	2	3cycles
 	
 	mov al,value8	0x06 xx ~
 	mov ah,value8	0x07 xx ~
@@ -59,41 +59,59 @@ Arithmatic: src=src<Math Operation>reg
 	add ax,bx		0x39
 	add ax,cx		0x3a
 	add ax,dx		0x3b
+	add ax,sp		0x7a
 	
 	add bx,ax		0x3c
 	add bx,bx		0x3d
 	add bx,cx		0x3e
 	add bx,dx		0x3f
+	add bx,sp		0x7b
 	
 	add cx,ax		0x40
 	add cx,bx		0x41
 	add cx,cx		0x42
 	add cx,dx		0x43
+	add cx,sp		0x7c
 	
 	add dx,ax		0x44
 	add dx,bx		0x45
 	add dx,cx		0x46
 	add dx,dx		0x47
+	add dx,sp		0x7d
+	
+	add sp,ax		0x7e
+	add sp,bx		0x7f
+	add sp,cx		0x80
+	add sp,dx		0x81
 	
 	sub ax,ax		0x48
 	sub ax,bx		0x49
 	sub ax,cx		0x4a
 	sub ax,dx		0x4b
+	sub ax,sp		0x82
 	
 	sub bx,ax		0x4c
 	sub bx,bx		0x4d
 	sub bx,cx		0x4e
 	sub bx,dx		0x4f
+	sub bx,sp		0x83
 	
 	sub cx,ax		0x50
 	sub cx,bx		0x51
 	sub cx,cx		0x52
 	sub cx,dx		0x53
+	sub cx,sp		0x84
 	
 	sub dx,ax		0x54
 	sub dx,bx		0x55
 	sub dx,cx		0x56
 	sub dx,dx		0x57
+	sub dx,sp		0x85
+	
+	sub sp,ax		0x86
+	sub sp,bx		0x87
+	sub sp,cx		0x88
+	sub sp,dx		0x89
 	
 	inc ax			0x58
 	inc bx			0x59
@@ -120,20 +138,20 @@ Comparisons:
 	cmp sp,value16	0x6a
 	
 Jumps:
-	jmp [ax]	0x10 ~
-	jmp value16	0x11 xx xx
+	jmp [ax]		0x10 ~
+	jmp value16		0x11 xx xx
 	
-	jeq [ax]	0x12
-	jeq value16	0x13
+	jeq [ax]		0x12
+	jeq value16		0x13
 
-	jne [ax]	0x14
-	jne value16	0x15
+	jne [ax]		0x14
+	jne value16		0x15
 
-	jl [ax]		0x16
-	jl value16	0x17
+	jl [ax]			0x16
+	jl value16		0x17
 
-	jg [ax]		0x18
-	jg value16	0x19
+	jg [ax]			0x18
+	jg value16		0x19
 
 Boolean:
 	xor ax,ax		0x6b
@@ -156,8 +174,12 @@ Boolean:
 	neg dx			0x79
 	
 	
-
+start instructions at 0x8a
 Graphics instructions:
+
+
+Shifting Instructions:
+
 	
 	
 	
