@@ -1,0 +1,186 @@
+16 bit
+Registers: ax,bx,cx,dx, without x is low byte
+	mov ax,value16	0x01 xx xx IL:0
+	mov bx,value16	0x02 xx xx IL:0
+	mov cx,value16	0x03 xx xx IL:0
+	mov dx,value16	0x04 xx xx IL:0
+	mov sp,value16	0x05 xx xx 
+	
+	mov al,value8	0x06 xx IL:2
+	mov ah,value8	0x07 xx IL:1
+	mov bl,value8	0x08 xx IL:2
+	mov bh,value8	0x09 xx IL:1
+	mov cl,value8	0x0a xx IL:2
+	mov ch,value8	0x0b xx IL:1
+	mov dl,value8  	0x0c xx IL:2
+	mov dh,value8	0x0d xx IL:1
+	mov spl,value8	0x0e xx 
+	mov sph,value8	0x0f xx 
+	
+	mov ax,bx		0x1a
+	mov ax,cx		0x1b
+	mov ax,dx		0x1c
+	mov ax,sp		0x1d
+	
+	mov bx,ax		0x1e
+	mov bx,cx		0x1f
+	mov bx,dx		0x20
+	mov bx,sp		0x21
+	
+	mov cx,ax		0x22
+	mov cx,bx		0x23
+	mov cx,dx		0x24
+	mov cx,sp		0x25
+	
+	mov dx,ax		0x26
+	mov dx,bx		0x27
+	mov dx,cx		0x28
+	mov dx,sp		0x29
+	
+	mov sp,ax		0x2a
+	mov sp,bx		0x2b
+	mov sp,cx		0x2c
+	mov sp,dx		0x2d
+Memory Access:
+	mov [dx],ax		0x2e
+	mov [dx],bx		0x2f
+	mov [dx],cx		0x30
+	mov [dx],dx		0x31
+	mov [dx],sp		0x32
+	
+	mov ax,[dx]		0x33
+	mov bx,[dx]		0x34
+	mov cx,[dx]		0x35
+	mov dx,[dx]		0x36
+	mov sp,[dx]		0x37
+	
+Arithmatic: src=src<Math Operation>reg
+	add ax,ax		0x38
+	add ax,bx		0x39
+	add ax,cx		0x3a
+	add ax,dx		0x3b
+	add ax,sp		0x7a
+	
+	add bx,ax		0x3c
+	add bx,bx		0x3d
+	add bx,cx		0x3e
+	add bx,dx		0x3f
+	add bx,sp		0x7b
+	
+	add cx,ax		0x40
+	add cx,bx		0x41
+	add cx,cx		0x42
+	add cx,dx		0x43
+	add cx,sp		0x7c
+	
+	add dx,ax		0x44
+	add dx,bx		0x45
+	add dx,cx		0x46
+	add dx,dx		0x47
+	add dx,sp		0x7d
+	
+	add sp,ax		0x7e
+	add sp,bx		0x7f
+	add sp,cx		0x80
+	add sp,dx		0x81
+	
+	sub ax,ax		0x48
+	sub ax,bx		0x49
+	sub ax,cx		0x4a
+	sub ax,dx		0x4b
+	sub ax,sp		0x82
+	
+	sub bx,ax		0x4c
+	sub bx,bx		0x4d
+	sub bx,cx		0x4e
+	sub bx,dx		0x4f
+	sub bx,sp		0x83
+	
+	sub cx,ax		0x50
+	sub cx,bx		0x51
+	sub cx,cx		0x52
+	sub cx,dx		0x53
+	sub cx,sp		0x84
+	
+	sub dx,ax		0x54
+	sub dx,bx		0x55
+	sub dx,cx		0x56
+	sub dx,dx		0x57
+	sub dx,sp		0x85
+	
+	sub sp,ax		0x86
+	sub sp,bx		0x87
+	sub sp,cx		0x88
+	sub sp,dx		0x89
+	
+	inc ax			0x58
+	inc bx			0x59
+	inc cx			0x5a
+	inc dx			0x5b
+	inc sp			0x5c
+	
+	dec ax			0x5d
+	dec bx			0x5e
+	dec cx			0x5f
+	dec dx			0x60
+	dec sp			0x61
+	
+Comparisons:
+	cmp ax,bx		0x62
+	cmp ax,cx		0x63
+	cmp ax,dx		0x64
+	cmp ax,sp		0x65
+	
+	cmp ax,value16	0x66
+	cmp bx,value16	0x67
+	cmp cx,value16	0x68
+	cmp dx,value16	0x69
+	cmp sp,value16	0x6a
+	
+Jumps:
+	jmp [ax]		0x10 ~
+	jmp value16		0x11 xx xx
+	
+	jeq [ax]		0x12
+	jeq value16		0x13
+
+	jne [ax]		0x14
+	jne value16		0x15
+
+	jl [ax]			0x16
+	jl value16		0x17
+
+	jg [ax]			0x18
+	jg value16		0x19
+
+Boolean:
+	xor ax,ax		0x6b
+	xor ax,bx		0x6c
+	xor ax,cx		0x6d
+	xor ax,dx		0x6e
+	xor ax,sp		0x6f
+	
+	or	ax,bx		0x70
+	or	ax,cx		0x71
+	or	ax,dx		0x72
+	
+	and	ax,bx		0x73
+	and	ax,cx		0x74
+	and ax,dx		0x75
+	
+	neg ax			0x76
+	neg	bx			0x77
+	neg cx			0x78
+	neg dx			0x79
+	
+	
+start instructions at 0x8a
+Graphics instructions:
+
+
+Shifting Instructions:
+
+	
+	
+	
+	

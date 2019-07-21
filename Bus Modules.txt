@@ -1,0 +1,16 @@
+BUS RAM
+	RAM Instruction: Multiple at a time
+		0b00001:jmp [data]
+		0b00010:mov ip,[ip]
+		0b00100:store at IP
+		0b01000:Read To Bus at IP
+		0b10000:Read/Write BUS
+	RAM Register: One at a time
+		0b000:mov reg,value16
+		0b001:mov regH,value8
+		0b010:mov regL,value8
+		0b011:dec reg
+		0b100:inc reg
+		0b101:set 0
+		0b110:Read/Write BUS
+	
