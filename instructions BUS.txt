@@ -1,25 +1,25 @@
 16 bit
 Registers: ax,bx,cx,dx, without x is low byte
-	mov	ax,value16	0x0001 ~
-	mov	bx,value16	0x0002 ~
-	mov	cx,value16	0x0003 ~
-	mov	dx,value16	0x0004 ~
+	mov	ax,value16	0x0001 ~	3clk
+	mov	bx,value16	0x0002 ~	3clk
+	mov	cx,value16	0x0003 ~	3clk
+	mov	dx,value16	0x0004 ~	3clk
 
-	mov	ax,bx		0x0005
-	mov	ax,cx		0x0006
-	mov	ax,dx		0x0007
+	mov	ax,bx		0x0005 ~	2clk
+	mov	ax,cx		0x0006 ~	2clk
+	mov	ax,dx		0x0007 ~	2clk
 	
-	mov	bx,ax		0x0008
-	mov	bx,cx		0x0009
-	mov	bx,dx		0x000a
+	mov	bx,ax		0x0008 ~	2clk
+	mov	bx,cx		0x0009 ~	2clk
+	mov	bx,dx		0x000a ~	2clk
 
-	mov	cx,ax		0x000b
-	mov	cx,bx		0x000c
-	mov	cx,dx		0x000d
+	mov	cx,ax		0x000b ~	2clk
+	mov	cx,bx		0x000c ~	2clk
+	mov	cx,dx		0x000d ~	2clk
 	
-	mov	dx,ax		0x000e
-	mov	dx,bx		0x000f
-	mov	dx,cx		0x0010
+	mov	dx,ax		0x000e ~	2clk
+	mov	dx,bx		0x000f ~	2clk
+	mov	dx,cx		0x0010 ~	2clk
 	
 Memory Access:
 	mov	ax,[ax]		0x0011
