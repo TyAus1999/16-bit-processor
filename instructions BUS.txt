@@ -24,8 +24,8 @@ Registers: ax,bx,cx,dx, without x is low byte
 Memory Access:
 	mov	ax,[ax]		0x0011 ~	3clk
 	mov	ax,[bx]		0x0012 ~	3clk
-	mov	ax,[cx]		0x0013
-	mov	ax,[dx]		0x0014
+	mov	ax,[cx]		0x0013 ~	3clk
+	mov	ax,[dx]		0x0014 ~	3clk
 	
 	mov	bx,[ax]		0x0015
 	mov	bx,[bx]		0x0016
