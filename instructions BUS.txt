@@ -1,21 +1,21 @@
 16 bit
 Registers: ax,bx,cx,dx, without x is low byte
-	mov ax,value16	0x01 xx xx IL:0
-	mov bx,value16	0x02 xx xx IL:0
-	mov cx,value16	0x03 xx xx IL:0
-	mov dx,value16	0x04 xx xx IL:0
-	mov sp,value16	0x05 xx xx 
+	mov ax,value16	0x0001 ~
+	mov bx,value16	0x0002 ~
+	mov cx,value16	0x0003 ~
+	mov dx,value16	0x0004 ~
+	mov sp,value16	0x0005   
 	
-	mov al,value8	0x06 xx IL:2
-	mov ah,value8	0x07 xx IL:1
-	mov bl,value8	0x08 xx IL:2
-	mov bh,value8	0x09 xx IL:1
-	mov cl,value8	0x0a xx IL:2
-	mov ch,value8	0x0b xx IL:1
-	mov dl,value8  	0x0c xx IL:2
-	mov dh,value8	0x0d xx IL:1
-	mov spl,value8	0x0e xx 
-	mov sph,value8	0x0f xx 
+	mov al,value8	0x0006  
+	mov ah,value8	0x0007  
+	mov bl,value8	0x0008  
+	mov bh,value8	0x0009  
+	mov cl,value8	0x000a  
+	mov ch,value8	0x000b  
+	mov dl,value8  	0x000c  
+	mov dh,value8	0x000d  
+	mov spl,value8	0x0e  
+	mov sph,value8	0x0f  
 	
 	mov ax,bx		0x1a
 	mov ax,cx		0x1b
@@ -139,7 +139,7 @@ Comparisons:
 	
 Jumps:
 	jmp [ax]		0x10 ~
-	jmp value16		0x11 xx xx
+	jmp value16		0x11  
 	
 	jeq [ax]		0x12
 	jeq value16		0x13
