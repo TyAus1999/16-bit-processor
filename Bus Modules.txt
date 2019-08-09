@@ -1,12 +1,14 @@
 BUS RAM
 	RAM Instruction: Multiple at a time
-		0b000001:jmp [data]
-		0b000010:mov ip,[ip]
-		0b000100:store at IP
-		0b001000:Read To Bus at IP
-		0b010000:Read/Write BUS
-		0b100000:Inc address pointer
-	RAM Register: One at a time
+		0b00000001:jmp [data]
+		0b00000010:mov ip,[ip]
+		0b00000100:store at IP
+		0b00001000:Read To Bus at IP
+		0b00010000:Read/Write BUS
+		0b00100000:Inc address pointer
+		0b01000000:Load Temp Address
+		0b10000000:Use Instruction Pointer/Use Temp Address
+	BUS Register: One at a time
 		0b000:mov reg,value16
 		0b001:mov regH,value8
 		0b010:mov regL,value8
