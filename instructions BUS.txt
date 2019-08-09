@@ -1,9 +1,9 @@
 16 bit
 Registers: ax,bx,cx,dx, without x is low byte
-	mov ax,value16	0x0001 ~
-	mov bx,value16	0x0002 ~
-	mov cx,value16	0x0003 ~
-	mov dx,value16	0x0004 ~
+	mov	ax,value16	0x0001 ~
+	mov	bx,value16	0x0002 ~
+	mov	cx,value16	0x0003 ~
+	mov	dx,value16	0x0004 ~
 
 	mov	ax,bx		0x0005
 	mov	ax,cx		0x0006
@@ -15,7 +15,7 @@ Registers: ax,bx,cx,dx, without x is low byte
 
 	mov	cx,ax		0x000b
 	mov	cx,bx		0x000c
-	mov cx,dx		0x000d
+	mov	cx,dx		0x000d
 	
 	mov	dx,ax		0x000e
 	mov	dx,bx		0x000f
@@ -45,7 +45,7 @@ Memory Access:
 	mov	[ax],ax		0x0021
 	mov	[ax],bx		0x0022
 	mov	[ax],cx		0x0023
-	mov [ax],dx		0x0024
+	mov	[ax],dx		0x0024
 
 	mov	[bx],ax		0x0025
 	mov	[bx],bx		0x0026
@@ -58,13 +58,13 @@ Memory Access:
 	mov	[cx],dx		0x002c
 
 	mov	[dx],ax		0x002d
-	mov [dx],bx		0x002e
+	mov	[dx],bx		0x002e
 	mov	[dx],cx		0x002f
 	mov	[dx],dx		0x0030
 	
 Arithmatic: src=src<Math Operation>reg
 	add	ax,ax		0x0031
-	add ax,bx		0x0032
+	add	ax,bx		0x0032
 	add	ax,cx		0x0033
 	add	ax,dx		0x0034
 
@@ -78,7 +78,7 @@ Arithmatic: src=src<Math Operation>reg
 	add	cx,cx		0x003b
 	add	cx,dx		0x003c
 	
-	add dx,ax		0x003d
+	add	dx,ax		0x003d
 	add	dx,bx		0x003e
 	add	dx,cx		0x003f
 	add	dx,dx		0x0040
@@ -115,7 +115,7 @@ Comparisons:
 	cmp	cx,bx		0x0054
 	cmp	cx,dx		0x0055
 
-	cmp dx,ax		0x0056
+	cmp	dx,ax		0x0056
 	cmp	dx,bx		0x0057
 	cmp	dx,cx		0x0058
 	
