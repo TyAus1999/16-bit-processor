@@ -62,7 +62,7 @@ Memory Access:
 	mov	[dx],cx		0x002f
 	mov	[dx],dx		0x0030
 	
-Arithmatic: src=src<Math Operation>reg
+Arithmatic: dest=dest<Math Operation>reg
 	add	ax,ax		0x0031
 	add	ax,bx		0x0032
 	add	ax,cx		0x0033
@@ -118,15 +118,86 @@ Comparisons:
 	cmp	dx,ax		0x0056
 	cmp	dx,bx		0x0057
 	cmp	dx,cx		0x0058
+
+	cmp	ax,vlaue16	0x0059
+	cmp	bx,value16	0x005a
+	cmp	cx,value16	0x005b
+	cmp	dx,value16	0x005c
 	
 Jumps:
+	jmp	address16	0x005d
+	jmp	[ax]		0x005e
+	
+	je	address16	0x005f
+	jl	address16	0x0060
+	jg	address16	0x0061
 
 Boolean:
+	and	ax,ax		0x0062
+	and	ax,bx		0x0063
+	and	ax,cx		0x0064
+	and	ax,dx		0x0065
+
+	or	ax,bx		0x0066
+	or	ax,cx		0x0067
+	or	ax,dx		0x0068
+
+	not	ax			0x0069
+	not	bx			0x006a
+	not	cx			0x006b
+	not	dx			0x006c
+
+	xor	ax,bx		0x006d
+	xor	ax,cx		0x006e
+	xor	ax,dx		0x006f
 	
+Shifting Instructions:
+	shl	ax,value16	0x0070
+	shl	ax,bx		0x0071
+	shl	ax,cx		0x0072
+	shl	ax,dx		0x0073
+
+	shl	bx,value16	0x0074
+	shl	bx,ax		0x0075
+	shl	bx,cx		0x0076
+	shl	bx,dx		0x0077
+	
+	shl	cx,value16	0x0078
+	shl	cx,ax		0x0079
+	shl	cx,bx		0x007a
+	shl	cx,dx		0x007b
+
+	shl	dx,value16	0x007c
+	shl	dx,ax		0x007d
+	shl	dx,bx		0x007e
+	shl	dx,cx		0x007f
+
+	shr	ax,value16	0x0080
+	shr	ax,bx		0x0081
+	shr	ax,cx		0x0082
+	shr	ax,dx		0x0083
+
+	shr	bx,value16	0x0084
+	shr	bx,ax		0x0085
+	shr	bx,cx		0x0086
+	shr	bx,dx		0x0087
+
+	shr	cx,value16	0x0088
+	shr	cx,ax		0x0089
+	shr	cx,bx		0x008a
+	shr	cx,dx		0x008b
+
+	shr	dx,value16	0x008c
+	shr	dx,ax		0x008d
+	shr	dx,bx		0x008e
+	shr	dx,cx		0x008f
+
+	
+
 Graphics instructions:
 
 
-Shifting Instructions:
+
 
 	
 	
