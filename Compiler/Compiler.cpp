@@ -15,7 +15,7 @@ int getSizeOfCharPtr(char*in){
 }
 WORD convertCharP(char*in,bool*success){//Hex-h Binary-i Blank for decimal
     *success=true;
-    printf("%s\n",in);
+    //printf("%s\n",in);
     int length=0;
     while(1){
         if(*(in+length)!=NULL)length++;
@@ -34,7 +34,7 @@ WORD convertCharP(char*in,bool*success){//Hex-h Binary-i Blank for decimal
     }
     for(int i=0;i<length;i++){
         char c=*(in+i);
-        if(c!=10 || c!=13)
+        if(c!=10 && c!=13)
             if(isHex){
                 if(c>=48 && c<=57){
                     WORD temp=c-48;
@@ -56,7 +56,7 @@ WORD convertCharP(char*in,bool*success){//Hex-h Binary-i Blank for decimal
                     out|=temp;
                 }
                 else{
-                    //printf("Error in conversion\n");
+                    //printf("Error in converstion ,%c,\n",c);
                     *success=false;
                     break;
                 }
@@ -71,7 +71,7 @@ WORD convertCharP(char*in,bool*success){//Hex-h Binary-i Blank for decimal
                     out|=1;
                 }
                 else{
-                    //printf("Error in conversion\n");
+                    //printf("Error in converstion ,%c,\n",c);
                     *success=false;
                     break;
                 }
@@ -83,7 +83,7 @@ WORD convertCharP(char*in,bool*success){//Hex-h Binary-i Blank for decimal
                     out+=temp;
                 }
                 else{
-                    //printf("Error in converstion\n");
+                    //printf("Error in converstion ,%c,\n",c);
                     *success=false;
                     break;
                 }
@@ -91,11 +91,11 @@ WORD convertCharP(char*in,bool*success){//Hex-h Binary-i Blank for decimal
     }
     return out;
 }
-void compile0(char*in){
+std::vector<WORD> compile0(char*in){
     //Jumps not taken into consideration
     //.word value16     is a macro to place data
     //No labels just yet
-    printf("%s\n",in);
+    //printf("%s\n",in);
     FILE*asmFile=fopen(in,"r");
     char buff[255];
     char* retV;
@@ -199,30 +199,98 @@ void compile0(char*in){
                         }
                     }
                 }
+                else if(*(retV+commaPos-1)=='x' && *(retV+commaPos+3)=='x'){
+                    //checks for mov reg,[reg]
+                    if(*(retV+commaPos-2)=='a')
+                    //checks for mov ax,[reg]
+                            if(*(retV+commaPos+2)=='a'){
+                                //mov ax,[ax]
+                                toFile.push_back(0x11);
+                                foundInstruction=true;
+                            }
+                            else if(*(retV+commaPos+2)=='b'){
+                                //mov ax,[bx]
+                                toFile.push_back(0x12);
+                                foundInstruction=true;
+                            }
+                            else if(*(retV+commaPos+2)=='c'){
+                                //mov ax,[cx]
+                                toFile.push_back(0x13);
+                                foundInstruction=true;
+                            }
+                            else if(*(retV+commaPos+2)=='d'){
+                                toFile.push_back(0x14);
+                                foundInstruction=true;
+                            }
+                }
                 //check for mov reg,value16
                 if(!foundInstruction){
+                    bool success=true;
+                    WORD value;
+                    value=convertCharP(retV+commaPos+1,&success);
+                    if(success)
+                        if(*(retV+commaPos-2)=='a'){
+                            //mov ax,value16
+                            toFile.push_back(0x1);
+                            toFile.push_back(value);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos-2)=='b'){
+                            //mov bx,value16
+                            toFile.push_back(0x2);
+                            toFile.push_back(value);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos-2)=='c'){
+                            //mov cx,value16
+                            toFile.push_back(0x3);
+                            toFile.push_back(value);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos-2)=='d'){
+                            //mov dx,value16
+                            toFile.push_back(0x4);
+                            toFile.push_back(value);
+                            foundInstruction=true;
+                        }
                     
                 }
             }
         }
         if(!foundInstruction){
             if(*retV=='.'){
-                printf("Instruction with . : %s\n",retV);
+                if(*(retV+1)=='w' &&
+                *(retV+2)=='o' &&
+                *(retV+3)=='r' &&
+                *(retV+4)=='d'){
+                    bool success;
+                    WORD value=convertCharP(retV+6,&success);
+                    if(success){
+                        toFile.push_back(value);
+                    }
+                }
             }
         }
         lineNumber++;
     }
-    for(int i=0;i<toFile.size();i++){
-        //printf("%s\n",v[i]);
-        //free(toFile[i]);
-    }
     fclose(asmFile);
+    return toFile;
+}
+void writeToFile(std::vector<WORD> toFile,char*fileName){
+    FILE*out=fopen(fileName,"w");
+    fprintf(out,"v2.0 raw\n");
+    for(int i=0;i<toFile.size();i++){
+        fprintf(out,"%x ",toFile[i]);
+    }
+    fclose(out);
 }
 
 int main(int argc, char **argv){
     //argv[1] is the file name
     //printf("Size of WORD:%i\n",sizeof(WORD));
-    //compile0(argv[1]);
+    std::vector<WORD> toFile=compile0(argv[1]);
+    writeToFile(toFile,argv[2]);
+    /*
     char*test=(char*)malloc(sizeof(char)*4);
     *test='1';
     *(test+1)='0';
@@ -231,5 +299,7 @@ int main(int argc, char **argv){
     //*(test+4)='i';
     bool testB;
     printf("%x\n",convertCharP(test,&testB));
+    free(test);
+    */
     return 0;
 }

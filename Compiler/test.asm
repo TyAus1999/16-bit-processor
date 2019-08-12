@@ -1,4 +1,4 @@
-mov bx,3
+mov bx,4
 mov ax,[bx]
 .word 0
-.word ffffh
+.word feedh
