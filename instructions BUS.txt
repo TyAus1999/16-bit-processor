@@ -192,6 +192,14 @@ Shifting Instructions:
 	shr	dx,bx		0x008e
 	shr	dx,cx		0x008f
 
+Misc Instructions:
+
+	sets register to zero
+	z	ax			0x0090
+	z	bx			0x0091
+	z	cx			0x0092
+	z	dx			0x0093
+
 	
 
 Graphics instructions:
