@@ -119,7 +119,7 @@ Comparisons:
 	cmp	dx,bx		0x0057
 	cmp	dx,cx		0x0058
 
-	cmp	ax,vlaue16	0x0059
+	cmp	ax,value16	0x0059
 	cmp	bx,value16	0x005a
 	cmp	cx,value16	0x005b
 	cmp	dx,value16	0x005c
@@ -199,6 +199,18 @@ Misc Instructions:
 	z	bx			0x0091
 	z	cx			0x0092
 	z	dx			0x0093
+
+	increments
+	inc	ax			0x0094
+	inc	bx			0x0095
+	inc	cx			0x0096
+	inc	dx			0x0097
+
+	decrements
+	dec	ax			0x0098
+	dec	bx			0x0099
+	dec	cx			0x009a
+	dec	dx			0x009b
 
 	
 
