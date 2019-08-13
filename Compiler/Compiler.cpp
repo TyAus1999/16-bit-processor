@@ -197,9 +197,13 @@ std::vector<WORD> compile0(char*in){
                             toFile.push_back(0x10);
                             foundInstruction=true;
                         }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
                     }
                 }
-                else if(*(retV+commaPos-1)=='x' && *(retV+commaPos+3)=='x'){
+                else if(*(retV+commaPos-1)=='x' && *(retV+commaPos+3)=='x'){//Check for mov reg,[reg]
                     //checks for mov reg,[reg]
                     if(*(retV+commaPos-2)=='a')
                     //checks for mov ax,[reg]
@@ -222,7 +226,198 @@ std::vector<WORD> compile0(char*in){
                                 toFile.push_back(0x14);
                                 foundInstruction=true;
                             }
+                            else{
+                                printf("Error on line %u\n",lineNumber);
+                                error=true;
+                            }
+                    else if(*(retV+commaPos-2)=='b')
+                        //checks for mov bx,[reg]
+                        if(*(retV+commaPos+2)=='a'){
+                            //mov bx,[ax]
+                            toFile.push_back(0x15);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+2)=='b'){
+                            //mov bx,[bx]
+                            toFile.push_back(0x16);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+2)=='c'){
+                            //mov bx,[cx]
+                            toFile.push_back(0x17);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+2)=='d'){
+                            //mov bx,[dx]
+                            toFile.push_back(0x18);
+                            foundInstruction=true;
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
+                    else if(*(retV+commaPos-2)=='c')
+                        //checks for mov cx,[reg]
+                        if(*(retV+commaPos+2)=='a'){
+                            //mov cx,[ax]
+                            toFile.push_back(0x19);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+2)=='b'){
+                            //mov cx,[bx]
+                            toFile.push_back(0x1a);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+2)=='c'){
+                            //mov cx,[cx]
+                            toFile.push_back(0x1b);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+2)=='d'){
+                            //mov cx,[dx]
+                            toFile.push_back(0x1c);
+                            foundInstruction=true;
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
+                    else if(*(retV+commaPos-2)=='d')
+                        //checks for mov dx,[reg]
+                        if(*(retV+commaPos+2)=='a'){
+                            //mov dx,[ax]
+                            toFile.push_back(0x1d);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+2)=='b'){
+                            //mov dx,[bx]
+                            toFile.push_back(0x1e);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+2)=='c'){
+                            //mov dx,[cx]
+                            toFile.push_back(0x1f);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+2)=='d'){
+                            //mov dx,[dx]
+                            toFile.push_back(0x20);
+                            foundInstruction=true;
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
                 }
+                else if(*(retV+commaPos-2)=='x' && *(retV+commaPos+2)=='x'){//Check for mov [reg],reg
+                //check for mov [reg],reg
+                    if(*(retV+commaPos-3)=='a')
+                        //check for mov [ax],reg
+                        if(*(retV+commaPos+1)=='a'){
+                            //check for mov [ax],ax
+                            toFile.push_back(0x21);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='b'){
+                            //check for mov [ax],bx
+                            toFile.push_back(0x22);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='c'){
+                            //check for mov [ax],cx
+                            toFile.push_back(0x23);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='d'){
+                            //check for mov [ax],dx
+                            toFile.push_back(0x24);
+                            foundInstruction=true;
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
+                    else if(*(retV+commaPos-3)=='b')
+                        //check for mov [bx],reg
+                        if(*(retV+commaPos+1)=='a'){
+                            //check for mov [bx],ax
+                            toFile.push_back(0x25);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='b'){
+                            //check for mov [bx],bx
+                            toFile.push_back(0x26);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='c'){
+                            //check for mov [bx],cx
+                            toFile.push_back(0x27);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='d'){
+                            //check for mov [bx],dx
+                            toFile.push_back(0x28);
+                            foundInstruction=true;
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
+                    else if(*(retV+commaPos-3)=='c')
+                        //check for mov [cx],reg
+                        if(*(retV+commaPos+1)=='a'){
+                            //check for mov [cx],ax
+                            toFile.push_back(0x29);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='b'){
+                            //check for mov [cx],bx
+                            toFile.push_back(0x2a);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='c'){
+                            //check for mov [cx],cx
+                            toFile.push_back(0x2b);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='d'){
+                            //check for mov [cx],dx
+                            toFile.push_back(0x2c);
+                            foundInstruction=true;
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
+                    else if(*(retV+commaPos-3)=='d')
+                        //check for mov [dx],reg
+                        if(*(retV+commaPos+1)=='a'){
+                            //check for mov [dx],ax
+                            toFile.push_back(0x2d);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='b'){
+                            //check for mov [dx],bx
+                            toFile.push_back(0x2e);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='c'){
+                            //check for mov [dx],cx
+                            toFile.push_back(0x2f);
+                            foundInstruction=true;
+                        }
+                        else if(*(retV+commaPos+1)=='d'){
+                            //check for mov [dx],dx
+                            toFile.push_back(0x30);
+                            foundInstruction=true;
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
+                }
+
+
                 //check for mov reg,value16
                 if(!foundInstruction){
                     bool success=true;
@@ -253,8 +448,207 @@ std::vector<WORD> compile0(char*in){
                             toFile.push_back(value);
                             foundInstruction=true;
                         }
-                    
+                    else{
+                        printf("Error on line %u\n",lineNumber);
+                        error=true;
+                    }
                 }
+            }
+
+            //check for add Instruction
+            else if(*retV=='a' && *(retV+1)=='d' && *(retV+2)=='d'){
+                //check for add ax,reg
+                if(*(retV+commaPos-2)=='a')
+                    //check for add ax,ax
+                    if(*(retV+commaPos+1)=='a'){
+                        toFile.push_back(0x31);
+                        foundInstruction=true;
+                    }
+                    //check for add ax,bx
+                    else if(*(retV+commaPos+1)=='b'){
+                        toFile.push_back(0x32);
+                        foundInstruction=true;
+                    }
+                    //check for add ax,cx
+                    else if(*(retV+commaPos+1)=='c'){
+                        toFile.push_back(0x33);
+                        foundInstruction=true;
+                    }
+                    //check for add ax,dx
+                    else if(*(retV+commaPos+1)=='d'){
+                        toFile.push_back(0x34);
+                        foundInstruction=true;
+                    }
+                    else{
+                        printf("Error on line %u\n",lineNumber);
+                        error=true;
+                    }
+                //check for add bx,reg
+                else if(*(retV+commaPos-2)=='b')
+                    //check for add bx,ax
+                    if(*(retV+commaPos+1)=='a'){
+                        toFile.push_back(0x35);
+                        foundInstruction=true;
+                    }
+                    //check for add bx,bx
+                    else if(*(retV+commaPos+1)=='b'){
+                        toFile.push_back(0x36);
+                        foundInstruction=true;
+                    }
+                    //check for add bx,cx
+                    else if(*(retV+commaPos+1)=='c'){
+                        toFile.push_back(0x37);
+                        foundInstruction=true;
+                    }
+                    //check for add bx,dx
+                    else if(*(retV+commaPos+1)=='d'){
+                        toFile.push_back(0x38);
+                        foundInstruction=true;
+                    }
+                    else{
+                        printf("Error on line %u\n",lineNumber);
+                        error=true;
+                    }
+                //check for add cx,reg
+                else if(*(retV+commaPos-2)=='c')
+                    //check for add cx,ax
+                    if(*(retV+commaPos+1)=='a'){
+                        toFile.push_back(0x39);
+                        foundInstruction=true;
+                    }
+                    //check for add cx,bx
+                    else if(*(retV+commaPos+1)=='b'){
+                        toFile.push_back(0x3a);
+                        foundInstruction=true;
+                    }
+                    //check for add cx,cx
+                    else if(*(retV+commaPos+1)=='c'){
+                        toFile.push_back(0x3b);
+                        foundInstruction=true;
+                    }
+                    //check for add cx,dx
+                    else if(*(retV+commaPos+1)=='d'){
+                        toFile.push_back(0x3c);
+                        foundInstruction=true;
+                    }
+                    else{
+                        printf("Error on line %u\n",lineNumber);
+                        error=true;
+                    }
+                //check for add dx,reg
+                else if(*(retV+commaPos-2)=='d')
+                    //check for add dx,ax
+                    if(*(retV+commaPos+1)=='a'){
+                        toFile.push_back(0x3d);
+                        foundInstruction=true;
+                    }
+                    //check for add dx,bx
+                    else if(*(retV+commaPos+1)=='b'){
+                        toFile.push_back(0x3e);
+                        foundInstruction=true;
+                    }
+                    //check for add dx,cx
+                    else if(*(retV+commaPos+1)=='c'){
+                        toFile.push_back(0x3f);
+                        foundInstruction=true;
+                    }
+                    //cehck for add dx,dx
+                    else if(*(retV+commaPos+1)=='d'){
+                        toFile.push_back(0x40);
+                        foundInstruction=true;
+                    }
+                    else{
+                        printf("Error on line %u\n",lineNumber);
+                        error=true;
+                    }
+            }
+
+            //check for sub instructions
+            else if(*retV=='s' && *(retV+1)=='u' && *(retV+2)=='b'){
+                //cehck for sub ax,reg
+                if(*(retV+commaPos-2)=='a')
+                    //cehck for sub ax,bx
+                    if(*(retV+commaPos+1)=='b'){
+                        toFile.push_back(0x41);
+                        foundInstruction=true;
+                    }
+                    //check for sub ax,cx
+                    else if(*(retV+commaPos+1)=='c'){
+                        toFile.push_back(0x42);
+                        foundInstruction=true;
+                    }
+                    //check for sub ax,dx
+                    else if(*(retV+commaPos+1)=='d'){
+                        toFile.push_back(0x43);
+                        foundInstruction=true;
+                    }
+                    else{
+                        printf("Error on line %u\n",lineNumber);
+                        error=true;
+                    }
+                //check for sub bx,reg
+                else if(*(retV+commaPos-2)=='b')
+                    //cehck for sub bx,ax
+                    if(*(retV+commaPos+1)=='a'){
+                        toFile.push_back(0x44);
+                        foundInstruction=true;
+                    }
+                    //check for sub bx,cx
+                    else if(*(retV+commaPos+1)=='c'){
+                        toFile.push_back(0x45);
+                        foundInstruction=true;
+                    }
+                    //check for sub bx,dx
+                    else if(*(retV+commaPos+1)=='d'){
+                        toFile.push_back(0x46);
+                        foundInstruction=true;
+                    }
+                    else{
+                        printf("Error on line %u\n",lineNumber);
+                        error=true;
+                    }
+                //check for sub cx,reg
+                else if(*(retV+commaPos-2)=='c')
+                    //check for sub cx,ax
+                    if(*(retV+commaPos+1)=='a'){
+                        toFile.push_back(0x47);
+                        foundInstruction=true;
+                    }
+                    //check for sub cx,bx
+                    else if(*(retV+commaPos+1)=='b'){
+                        toFile.push_back(0x48);
+                        foundInstruction=true;
+                    }
+                    //check for sub cx,dx
+                    else if(*(retV+commaPos+1)=='d'){
+                        toFile.push_back(0x49);
+                        foundInstruction=true;
+                    }
+                    else{
+                        printf("Error on line %u\n",lineNumber);
+                        error=true;
+                    }
+                //check for sub dx,reg
+                else if(*(retV+commaPos-2)=='d')
+                    //check for sub dx,ax
+                    if(*(retV+commaPos+1)=='a'){
+                        toFile.push_back(0x4a);
+                        foundInstruction=true;
+                    }
+                    //check for sub dx,bx
+                    else if(*(retV+commaPos+1)=='b'){
+                        toFile.push_back(0x4b);
+                        foundInstruction=true;
+                    }
+                    //check for sub dx,cx
+                    else if(*(retV+commaPos+1)=='c'){
+                        toFile.push_back(0x4c);
+                        foundInstruction=true;
+                    }
+                    else{
+                        printf("Error on line %u\n",lineNumber);
+                        error=true;
+                    }
             }
         }
         if(!foundInstruction){
@@ -270,6 +664,11 @@ std::vector<WORD> compile0(char*in){
                     }
                 }
             }
+            else{
+                printf("Error on line %u\n",lineNumber);
+                error=true;
+            }
+            
         }
         lineNumber++;
     }
