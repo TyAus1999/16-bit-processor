@@ -97,23 +97,34 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
 
     bool error=false;
     char* retV;
-    char buffer[255];
+    int bSize=255;
+    char buffer[bSize];
     while(!error){
-        retV=fgets(buffer,255,(FILE*)asmFile);
+        retV=fgets(buffer,bSize,(FILE*)asmFile);
         if(retV==NULL)break;
         bool foundInstruction=false;
         int commaPos=-1;
-        for(int i=0;i<255;i++){
+        for(int i=0;i<bSize;i++){
             if(*(retV+i)==','){
                 commaPos=i;
                 break;
             }
         }
         if(commaPos!=-1){
-
+            //Check for mov instruction
+            bool isMovInstruction=false;
+            for(int i=;i<bSize-3;i++){
+                if(*(retV+i)=='m' && *(retV+i+1)=='o' && *(retV+i+2)=='v'){
+                    isMovInstruction=true;
+                    break;
+                }
+            }
+            if(isMovInstruction){
+                
+            }
         }
         else{
-            
+
         }
     }
 
