@@ -95,7 +95,27 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
     FILE*asmFile=fopen(in,"r");
     std::vector<WORD> out;
 
-    
+    bool error=false;
+    char* retV;
+    char buffer[255];
+    while(!error){
+        retV=fgets(buffer,255,(FILE*)asmFile);
+        if(retV==NULL)break;
+        bool foundInstruction=false;
+        int commaPos=-1;
+        for(int i=0;i<255;i++){
+            if(*(retV+i)==','){
+                commaPos=i;
+                break;
+            }
+        }
+        if(commaPos!=-1){
+
+        }
+        else{
+            
+        }
+    }
 
     fclose(asmFile);
     return out;
