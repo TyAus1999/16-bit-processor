@@ -91,6 +91,15 @@ WORD convertCharP(char*in,bool*success){//Hex-h Binary-i Blank for decimal
     }
     return out;
 }
+std::vector<WORD> compile1(char*in){//remaster of compile0
+    FILE*asmFile=fopen(in,"r");
+    std::vector<WORD> out;
+
+    
+
+    fclose(asmFile);
+    return out;
+}
 std::vector<WORD> compile0(char*in){
     //Jumps not taken into consideration
     //.word value16     is a macro to place data
@@ -310,7 +319,6 @@ std::vector<WORD> compile0(char*in){
                         }
                 }
                 else if(*(retV+commaPos-2)=='x' && *(retV+commaPos+2)=='x'){//Check for mov [reg],reg
-                //check for mov [reg],reg
                     if(*(retV+commaPos-3)=='a')
                         //check for mov [ax],reg
                         if(*(retV+commaPos+1)=='a'){
@@ -416,42 +424,9 @@ std::vector<WORD> compile0(char*in){
                             error=true;
                         }
                 }
-
-
                 //check for mov reg,value16
-                if(!foundInstruction){
-                    bool success=true;
-                    WORD value;
-                    value=convertCharP(retV+commaPos+1,&success);
-                    if(success)
-                        if(*(retV+commaPos-2)=='a'){
-                            //mov ax,value16
-                            toFile.push_back(0x1);
-                            toFile.push_back(value);
-                            foundInstruction=true;
-                        }
-                        else if(*(retV+commaPos-2)=='b'){
-                            //mov bx,value16
-                            toFile.push_back(0x2);
-                            toFile.push_back(value);
-                            foundInstruction=true;
-                        }
-                        else if(*(retV+commaPos-2)=='c'){
-                            //mov cx,value16
-                            toFile.push_back(0x3);
-                            toFile.push_back(value);
-                            foundInstruction=true;
-                        }
-                        else if(*(retV+commaPos-2)=='d'){
-                            //mov dx,value16
-                            toFile.push_back(0x4);
-                            toFile.push_back(value);
-                            foundInstruction=true;
-                        }
-                    else{
-                        printf("Error on line %u\n",lineNumber);
-                        error=true;
-                    }
+                else if(*(retV+commaPos-1)=='x'){
+
                 }
             }
 
@@ -650,9 +625,175 @@ std::vector<WORD> compile0(char*in){
                         error=true;
                     }
             }
+
+            //check for cmp instructions
+            else if(*retV=='c' && *(retV+1)=='m' && *(retV+2)=='p'){
+                //check for cmp ax,reg
+                if(*(retV+commaPos-2)=='a')
+                    //check for cmp ax,bx
+                    if(*(retV+commaPos+1)=='b'){
+                        toFile.push_back(0x4d);
+                        foundInstruction=true;
+                    }
+                    //check for cmp ax,cx
+                    else if(*(retV+commaPos+1)=='c'){
+                        toFile.push_back(0x4e);
+                        foundInstruction=true;
+                    }
+                    //check for cmp ax,dx
+                    else if(*(retV+commaPos+1)=='d'){
+                        toFile.push_back(0x4f);
+                        foundInstruction=true;
+                    }
+                    else{
+                        //check for cmp ax,value16
+                        bool success;
+                        WORD value=convertCharP(retV+commaPos+1,&success);
+                        if(success){
+                            toFile.push_back(0x59);
+                            toFile.push_back(value);
+                            foundInstruction=true;
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
+                    }
+                //check for cmp bx,reg
+                else if(*(retV+commaPos-2)=='b')
+                    //check for cmp bx,ax
+                    if(*(retV+commaPos+1)=='a'){
+                        toFile.push_back(0x50);
+                        foundInstruction=true;
+                    }
+                    //check for cmp bx,cx
+                    else if(*(retV+commaPos+1)=='c'){
+                        toFile.push_back(0x51);
+                        foundInstruction=true;
+                    }
+                    //check for cmp bx,dx
+                    else if(*(retV+commaPos+1)=='d'){
+                        toFile.push_back(0x52);
+                        foundInstruction=true;
+                    }
+                    else{
+                        //check for cmp bx,value16
+                        bool success;
+                        WORD value=convertCharP(retV+commaPos+1,&success);
+                        if(success){
+                            toFile.push_back(0x5a);
+                            toFile.push_back(value);
+                            foundInstruction=true;
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
+                    }
+                //check for cmp cx,reg
+                else if(*(retV+commaPos-2)=='c')
+                    //check for cmp cx,ax
+                    if(*(retV+commaPos+1)=='a'){
+                        toFile.push_back(0x53);
+                        foundInstruction=true;
+                    }
+                    //check for cmp cx,bx
+                    else if(*(retV+commaPos+1)=='b'){
+                        toFile.push_back(0x54);
+                        foundInstruction=true;
+                    }
+                    //check for cmp cx,dx
+                    else if(*(retV+commaPos+1)=='d'){
+                        toFile.push_back(0x55);
+                        foundInstruction=true;
+                    }
+                    else{
+                        //check for cmp cx,value16
+                        bool success;
+                        WORD value=convertCharP(retV+commaPos+1,&success);
+                        if(success){
+                            toFile.push_back(0x5b);
+                            toFile.push_back(value);
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
+                    }
+                //check for cmp dx,reg
+                else if(*(retV+commaPos-2)=='d')
+                    //check for cmp dx,ax
+                    if(*(retV+commaPos+1)=='a'){
+                        toFile.push_back(0x56);
+                        foundInstruction=true;
+                    }
+                    //check for cmp dx,bx
+                    else if(*(retV+commaPos+1)=='b'){
+                        toFile.push_back(0x57);
+                        foundInstruction=true;
+                    }
+                    //check for cmp dx,cx
+                    else if(*(retV+commaPos+1)=='c'){
+                        toFile.push_back(0x58);
+                        foundInstruction=true;
+                    }
+                    else{
+                        //check for cmp dx,value16
+                        bool success;
+                        WORD value=convertCharP(retV+commaPos+1,&success);
+                        if(success){
+                            toFile.push_back(0x5c);
+                            toFile.push_back(value);
+                            foundInstruction=true;
+                        }
+                        else{
+                            printf("Error on line %u\n",lineNumber);
+                            error=true;
+                        }
+                    }
+            }
         }
         if(!foundInstruction){
-            if(*retV=='.'){
+            //check for jmp address16
+            if(*retV=='j' && *(retV+1)=='m' && *(retV+2)=='p'){
+                int addr=-1,regJump=-1;
+                for(int i=0;i<252;i++){
+                    if(*(retV+3+i)!=32 && *(retV+3+i)!=9){
+                        addr=i+3;
+                        break;
+                    }
+                    else if(*(retV+3+i)=='['){
+                        regJump=i+3;
+                        break;
+                    }
+                }
+                if(addr!=-1){
+                    bool success;
+                    WORD value=convertCharP(retV+addr,&success);
+                    if(success){
+                        toFile.push_back(0x5d);
+                        toFile.push_back(value);
+                        foundInstruction=true;
+                    }
+                }
+                else if(regJump!=-1){
+                    toFile.push_back(0x5e);
+                    foundInstruction=true;
+                }
+            }
+            //check for je
+            else if(*retV=='j' && *(retV+1)=='e'){
+                
+            }
+            //check for jl
+            else if(*retV=='j' && *(retV+1)=='l'){
+                
+            }
+            //check for jg
+            else if(*retV=='j' && *(retV+1)=='g'){
+                
+            }
+            else if(*retV=='.'){
                 if(*(retV+1)=='w' &&
                 *(retV+2)=='o' &&
                 *(retV+3)=='r' &&
