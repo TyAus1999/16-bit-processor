@@ -15,24 +15,23 @@ int getSizeOfCharPtr(char*in){
 }
 WORD convertCharP(char*in,bool*success){//Hex-h Binary-i Blank for decimal
     *success=true;
+    int length=getSizeOfCharPtr(in);
     //printf("%s\n",in);
-    int length=0;
-    while(1){
-        if(*(in+length)!=NULL)length++;
-        else break;
-    }
     WORD out=0;
     bool isHex=false;
     bool isBin=false;
-    if(*(in+length-1)=='h'){
+    if(*(in+length-1)=='h' || *(in+length-2)=='h'){
         isHex=true;
         length--;
+        //printf("HEX\n");
     }
-    else if(*(in+length-1)=='i'){//BINARY numbers end in i
+    else if(*(in+length-1)=='i' || *(in+length-2)=='i'){//BINARY numbers end in i
         isBin=true;
         length--;
+        //printf("BIN\n");
     }
-    for(int i=0;i<length;i++){
+    
+    for(int i=0;i<length-1;i++){
         char c=*(in+i);
         if(c!=10 && c!=13)
             if(isHex){
@@ -99,33 +98,488 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
     char* retV;
     int bSize=255;
     char buffer[bSize];
+    unsigned int lineNumber=1;
     while(!error){
+        topLoop:
         retV=fgets(buffer,bSize,(FILE*)asmFile);
         if(retV==NULL)break;
+        else if(*retV==10 || *retV==13){
+            lineNumber++;
+            goto topLoop;
+        }
         bool foundInstruction=false;
-        int commaPos=-1;
+        int commaPos=-1,periodPos=-1;
         for(int i=0;i<bSize;i++){
             if(*(retV+i)==','){
                 commaPos=i;
                 break;
             }
+            else if(*(retV+i)=='.'){
+                periodPos=i;
+                break;
+            }
         }
-        if(commaPos!=-1){
+        if(commaPos!=-1){//Check for instructions with commas
             //Check for mov instruction
-            bool isMovInstruction=false;
-            for(int i=;i<bSize-3;i++){
+            bool isMovInstruction=false,isAddInstruction=false,isSubInstruction=false,isCmpInstruction=false;
+            for(int i=0;i<bSize-3;i++){//Checking for instruction
                 if(*(retV+i)=='m' && *(retV+i+1)=='o' && *(retV+i+2)=='v'){
                     isMovInstruction=true;
                     break;
                 }
+                else if(*(retV+i)=='a' && *(retV+i+1)=='d' && *(retV+i+2)=='d'){
+                    isAddInstruction=true;
+                    break;
+                }
+                else if(*(retV+i)=='s' && *(retV+i+1)=='u' && *(retV+i+2)=='b'){
+                    isSubInstruction=true;
+                    break;
+                }
+                else if(*(retV+i)=='c' && *(retV+i+1)=='m' && *(retV+i+2)=='p'){
+                    isCmpInstruction=true;
+                    break;
+                }
             }
+            //printf("%s\n",retV);
             if(isMovInstruction){
-                
+                //check for mov ax,reg/value16/[reg]
+                if(*(retV+commaPos-2)=='a'){
+                    //check for mov ax,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x1);
+                        out.push_back(value);
+                    }
+                    else{
+                        //check for mov ax,bx
+                        if(*(retV+commaPos+1)=='b')
+                            out.push_back(0x5);
+                        //check for mov ax,cx
+                        else if(*(retV+commaPos+1)=='c')
+                            out.push_back(0x6);
+                        //check for mov ax,dx
+                        else if(*(retV+commaPos+1)=='d')
+                            out.push_back(0x7);
+                        //check for mov ax,[ax]
+                        else if(*(retV+commaPos+2)=='a')
+                            out.push_back(0x11);
+                        //check for mov ax,[bx]
+                        else if(*(retV+commaPos+2)=='b')
+                            out.push_back(0x12);
+                        //check for mov ax,[cx]
+                        else if(*(retV+commaPos+2)=='c')
+                            out.push_back(0x13);
+                        //check for mov ax,[dx]
+                        else if(*(retV+commaPos+2)=='d')
+                            out.push_back(0x14);
+                        else{
+                            printf("Error on line:%u\n",lineNumber);
+                            printf("%s\n",retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+                //check for mov bx,reg/value16/[reg]
+                else if(*(retV+commaPos-2)=='b'){
+                    //check for mov bx,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    //printf("%u\n",value);
+                    //printf("%s\n",retV+commaPos+1);
+                    if(success){
+                        out.push_back(0x2);
+                        out.push_back(value);
+                    }
+                    else{
+                        //check for mov bx,ax
+                        if(*(retV+commaPos+1)=='a')
+                            out.push_back(0x8);
+                        //check for mov bx,cx
+                        else if(*(retV+commaPos+1)=='c')
+                            out.push_back(0x9);
+                        //check for mov bx,dx
+                        else if(*(retV+commaPos+1)=='d')
+                            out.push_back(0xa);
+                        //check for mov bx,[ax]
+                        else if(*(retV+commaPos+2)=='a')
+                            out.push_back(0x15);
+                        //check for mov bx,[bx]
+                        else if(*(retV+commaPos+2)=='b')
+                            out.push_back(0x16);
+                        //check for mov bx,[cx]
+                        else if(*(retV+commaPos+2)=='c')
+                            out.push_back(0x17);
+                        //check for mov bx,[dx]
+                        else if(*(retV+commaPos+2)=='d')
+                            out.push_back(0x18);
+                        else{
+                            printf("Error on line:%u\n",lineNumber);
+                            printf("%s\n",retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+                //check for mov cx,reg/value16/[reg]
+                else if(*(retV+commaPos-2)=='c'){
+                    //check for mov cx,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x3);
+                        out.push_back(value);
+                    }
+                    else{
+                        //check for mov cx,ax
+                        if(*(retV+commaPos+1)=='a')
+                            out.push_back(0xb);
+                        //check for mov cx,bx
+                        else if(*(retV+commaPos+1)=='b')
+                            out.push_back(0xc);
+                        //check for mov cx,dx
+                        else if(*(retV+commaPos+1)=='d')
+                            out.push_back(0xd);
+                        //check for mov cx,[ax]
+                        else if(*(retV+commaPos+2)=='a')
+                            out.push_back(0x19);
+                        //check for mov cx,[bx]
+                        else if(*(retV+commaPos+2)=='b')
+                            out.push_back(0x1a);
+                        //check for mov cx,[cx]
+                        else if(*(retV+commaPos+2)=='c')
+                            out.push_back(0x1b);
+                        //check for mov cx,[dx]
+                        else if(*(retV+commaPos+2)=='d')
+                            out.push_back(0x1c);
+                        else{
+                            printf("Error on line:%u\n",lineNumber);
+                            printf("%s\n",retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+                //check for mov dx,reg/value16/[reg]
+                else if(*(retV+commaPos-2)=='d'){
+                    //check for mov dx,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x4);
+                        out.push_back(value);
+                    }
+                    else{
+                        //check for mov dx,ax
+                        if(*(retV+commaPos+1)=='a')
+                            out.push_back(0xe);
+                        //check for mov dx,bx
+                        else if(*(retV+commaPos+1)=='b')
+                            out.push_back(0xf);
+                        //check for mov dx,cx
+                        else if(*(retV+commaPos+1)=='c')
+                            out.push_back(0x10);
+                        //check for mov dx,[ax]
+                        else if(*(retV+commaPos+2)=='a')
+                            out.push_back(0x1d);
+                        //check for mov dx,[bx]
+                        else if(*(retV+commaPos+2)=='b')
+                            out.push_back(0x1e);
+                        //check for mov dx,[cx]
+                        else if(*(retV+commaPos+2)=='c')
+                            out.push_back(0x1f);
+                        //check for mov dx,[dx]
+                        else if(*(retV+commaPos+2)=='d')
+                            out.push_back(0x20);
+                        else{
+                            printf("Error on line:%u\n",lineNumber);
+                            printf("%s\n",retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+                //check for mov [ax],reg
+                else if(*(retV+commaPos-3)=='a'){
+                    //check for mov [ax],ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x21);
+                    //check for mov [ax],bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x22);
+                    //check for mov [ax],cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x23);
+                    //check for mov [ax],dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x24);
+                    else{
+                        printf("Error on line:%u\n",lineNumber);
+                        printf("%s\n",retV);
+                        error=true;
+                        break;
+                    }
+                }
+                //check for mov [bx],reg
+                else if(*(retV+commaPos-3)=='b'){
+                    //check for mov [bx],ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x25);
+                    //check for mov [bx],bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x26);
+                    //check for mov [bx],cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x27);
+                    //check for mov [bx],dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x28);
+                    else{
+                        printf("Error on line:%u\n",lineNumber);
+                        printf("%s\n",retV);
+                        error=true;
+                        break;
+                    }
+                }
+                //check for mov [cx],reg
+                else if(*(retV+commaPos-3)=='c'){
+                    //check for mov [cx],ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x29);
+                    //check for mov [cx],bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x2a);
+                    //check for mov [cx],cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x2b);
+                    //check for mov [cx],dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x2c);
+                    else{
+                        printf("Error on line:%u\n",lineNumber);
+                        printf("%s\n",retV);
+                        error=true;
+                        break;
+                    }
+                }
+                //check for mov [dx],reg
+                else if(*(retV+commaPos-3)=='d'){
+                    //check for mov [dx],ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x2d);
+                    //check for mov [dx],bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x2e);
+                    //check for mov [dx],cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x2f);
+                    //check for mov [dx],dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x30);
+                    else{
+                        printf("Error on line:%u\n",lineNumber);
+                        printf("%s\n",retV);
+                        error=true;
+                        break;
+                    }
+                }
+                else{
+                    printf("Error on line: %u\n",lineNumber);
+                    printf("%s\n",retV);
+                    error=true;
+                    break;
+                }
+            }
+            else if(isAddInstruction){
+                //check for add ax,reg
+                if(*(retV+commaPos-2)=='a'){
+                    //check for add ax,ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x31);
+                    //check for add ax,bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x32);
+                    //check for add ax,cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x33);
+                    //check for add ax,dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x34);
+                    else{
+                        printf("Error on line: %u\n",lineNumber);
+                        printf("%s\n",retV);
+                        error=true;
+                        break;
+                    }
+                }
+                //check for add bx,reg
+                else if(*(retV+commaPos-2)=='b'){
+                    //check for add bx,ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x35);
+                    //check for add bx,bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x36);
+                    //check for add bx,cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x37);
+                    //check for add bx,dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x38);
+                    else{
+                        printf("Error on line: %u\n%s\n",lineNumber,retV);
+                        error=true;
+                        break;
+                    }
+                }
+                //check for add cx,reg
+                else if(*(retV+commaPos-2)=='c'){
+                    //check for add cx,ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x39);
+                    //check for add cx,bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x3a);
+                    //check for add cx,cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x3b);
+                    //check for add cx,dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x3c);
+                    else{
+                        printf("Error on line: %u\n%s\n",lineNumber,retV);
+                        error=true;
+                        break;
+                    }
+                }
+                //check for add dx,reg
+                else if(*(retV+commaPos-2)=='d'){
+                    //check for add dx,ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x3d);
+                    //check for add dx,bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x3e);
+                    //check for add dx,cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x3f);
+                    //check for add dx,dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x40);
+                    else{
+                        printf("Error on line: %u\n%s\n",lineNumber,retV);
+                        error=true;
+                        break;
+                    }
+                }
+                else{
+                    printf("Error on line: %u\n%s\n",lineNumber,retV);
+                    error=true;
+                    break;
+                }
+            }
+            else if(isSubInstruction){
+                //check for sub ax,reg
+                if(*(retV+commaPos-2)=='a'){
+                    //check for sub ax,bx
+                    if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x41);
+                    //check for sub ax,cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x42);
+                    //check for sub ax,dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x43);
+                    else{
+                        printf("Error on line: %u\n%s\n",lineNumber,retV);
+                        error=true;
+                        break;
+                    }
+                }
+                //check for sub bx,reg
+                else if(*(retV+commaPos-2)=='b'){
+                    //check for sub bx,ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x44);
+                    //check for sub bx,cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x45);
+                    //check for sub bx,dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x46);
+                    else{
+                        printf("Error on line: %u\n%s\n",lineNumber,retV);
+                        error=true;
+                        break;
+                    }
+                }
+                //check for sub cx,reg
+                else if(*(retV+commaPos-2)=='c'){
+                    //check for sub cx,ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x47);
+                    //check for sub cx,bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x48);
+                    //check for sub cx,dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x49);
+                    else{
+                        printf("Error on line: %u\n%s\n",lineNumber,retV);
+                        error=true;
+                        break;
+                    }
+                }
+                //check for sub dx,reg
+                else if(*(retV+commaPos-2)=='d'){
+                    //check for sub dx,ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x4a);
+                    //check for sub dx,bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x4b);
+                    //check for sub dx,cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x4c);
+                    else{
+                        printf("Error on line: %u\n%s\n",lineNumber,retV);
+                        error=true;
+                        break;
+                    }
+                }
+            }
+            else if(isCmpInstruction){
+
+            }
+            else{
+                printf("Not an instruction :%s on line %u\n",retV,lineNumber);
+                error=true;
+                break;
+            }
+        }
+        else if(periodPos!=-1){//check for .macros
+            bool isWordMacro=false;
+            for(int i=periodPos+1;i<bSize-3;i++){
+                //check for .word macro
+                if(*(retV+i)=='w' && *(retV+i+1)=='o' && *(retV+i+2)=='r' && *(retV+i+3)=='d'){
+                    isWordMacro=true;
+                    break;
+                } 
+            }
+            if(isWordMacro){
+                bool success;
+                WORD value=convertCharP(retV+periodPos+6,&success);
+                if(success)out.push_back(value);
+                else{
+                    printf("Not success\n");
+                }
             }
         }
         else{
-
+            printf("Instruction not currently implimented\n");
         }
+        lineNumber++;
     }
 
     fclose(asmFile);
@@ -859,7 +1313,7 @@ void writeToFile(std::vector<WORD> toFile,char*fileName){
 int main(int argc, char **argv){
     //argv[1] is the file name
     //printf("Size of WORD:%i\n",sizeof(WORD));
-    std::vector<WORD> toFile=compile0(argv[1]);
+    std::vector<WORD> toFile=compile1(argv[1]);
     writeToFile(toFile,argv[2]);
     /*
     char*test=(char*)malloc(sizeof(char)*4);
