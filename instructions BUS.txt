@@ -99,6 +99,8 @@ Arithmatic: dest=dest<Math Operation>reg
 	sub	dx,bx		0x004b
 	sub	dx,cx		0x004c
 
+	Add in add reg,value16
+	Add in sub reg,vlaue16
 	Maybe multiplication and division instructions? 
 	Possible float? (sounds like a cluster fuck)
 
@@ -123,6 +125,9 @@ Comparisons:
 	cmp	bx,value16	0x005a
 	cmp	cx,value16	0x005b
 	cmp	dx,value16	0x005c
+	
+	Add cmp reg,[reg]
+	Add cmp reg,[value16]
 	
 Jumps:
 	jmp	address16	0x005d
@@ -212,7 +217,16 @@ Misc Instructions:
 	dec	cx			0x009a
 	dec	dx			0x009b
 
-	
+	mov memory with immediate value
+	mov	ax,[value16]	0x009c
+	mov	bx,[value16]	0x009e
+	mov	cx,[value16]	0x009f
+	mov	dx,[value16]	0x00a0
+
+	mov	[value16],ax	0x00a1
+	mov	[value16],bx	0x00a2
+	mov	[value16],cx	0x00a3
+	mov	[value16],dx	0x00a4
 
 Graphics instructions:
 
