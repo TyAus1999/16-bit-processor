@@ -90,6 +90,52 @@ WORD convertCharP(char*in,bool*success){//Hex-h Binary-i Blank for decimal
     }
     return out;
 }
+std::vector<WORD> compile2(char*in){
+    FILE*asmFile=fopen(in,"r");
+    std::vector<WORD> out;
+
+    char* retV;
+    int bSize=255;
+    char buffer[bSize];
+    unsigned int lineNumber=1;
+    bool error=false;
+    while(!error){
+        topLoop:
+        retV=fgets(buffer,bSize,(FILE*)asmFile);
+        if(retV==NULL)break;
+        else if(*retV==10 || *retV==13){
+            lineNumber++;
+            goto topLoop;
+        }
+
+        for(int i=0;i<bSize;i++){
+            if(*(retV+i)=='m'){
+                if(*(retV+i+1)=='o' && *(retV+i+2)=='v'){
+                    int nonSpaceIndex=-1;
+                    for(int p=i+3;p<bSize;p++){
+                        if(*(retV+p)!=32 && *(retV+p)!=9){
+                            nonSpaceIndex=p;
+                            break;
+                        }
+                    }
+                    if(nonSpaceIndex!=-1){
+                        
+                    }
+                    else{
+                        printf("Error on line: %u\n",lineNumber);
+                        error=true;
+                        //throw error
+                    }
+                }
+            }
+            else if(*(retV+i)=='a'){
+
+            }
+        }
+    }
+    fclose(asmFile);
+    return out;
+}
 std::vector<WORD> compile1(char*in){//remaster of compile0
     FILE*asmFile=fopen(in,"r");
     std::vector<WORD> out;
@@ -675,16 +721,147 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
                 }
             }
             else if(isAndInstruction){
-
+                //check for and ax,reg
+                if(*(retV+commaPos-2)=='a'){
+                    //check for and ax,ax
+                    if(*(retV+commaPos+1)=='a')
+                        out.push_back(0x62);
+                    //check for and ax,bx
+                    else if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x63);
+                    //check for and ax,cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x64);
+                    //check for and ax,dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x65);
+                    else{
+                        printf("Error on line: %u\n%s\n",lineNumber,retV);
+                        error=true;
+                        break;
+                    }
+                }
             }
             else if(isOrInstruction){
-
+                //check for or ax,reg
+                if(*(retV+commaPos-2)=='a'){
+                    //check for or ax,bx
+                    if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x66);
+                    //check for or ax,cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x67);
+                    //check for or ax,dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x68);
+                    else{
+                        printf("Error on line: %u\n%s\n",lineNumber,retV);
+                        error=true;
+                        break;
+                    }
+                }
             }
             else if(isXorInstruction){
-
+                //check for xor ax,reg
+                if(*(retV+commaPos-2)=='a'){
+                    //check for xor ax,bx
+                    if(*(retV+commaPos+1)=='b')
+                        out.push_back(0x6d);
+                    //check for xor ax,cx
+                    else if(*(retV+commaPos+1)=='c')
+                        out.push_back(0x6e);
+                    //check for xor ax,dx
+                    else if(*(retV+commaPos+1)=='d')
+                        out.push_back(0x6f);
+                    else{
+                        printf("Error on line: %u\n%s\n",lineNumber,retV);
+                        error=true;
+                        break;
+                    }
+                }
             }
             else if(isShlInstruction){
-
+                //check for shl ax,value16/reg
+                if(*(retV+commaPos-2)=='a'){
+                    //check for shl ax,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x70);
+                        out.push_back(value);
+                        break;
+                    }
+                    else{
+                        //check for shl ax,bx
+                        if(*(retV+commaPos+1)=='b')
+                            out.push_back(0x71);
+                        //check for shl ax,cx
+                        else if(*(retV+commaPos+1)=='c')
+                            out.push_back(0x72);
+                        //check for shl ax,dx
+                        else if(*(retV+commaPos+1)=='d')
+                            out.push_back(0x73);
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+                //check for shl bx,value16/reg
+                else if(*(retV+commaPos-2)=='b'){
+                    //check for shl bx,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x74);
+                        out.push_back(value);
+                        break;
+                    }
+                    else{
+                        //check for shl bx,ax
+                        if(*(retV+commaPos+1)=='a')
+                            out.push_back(0x75);
+                        //check for shl bx,cx
+                        else if(*(retV+commaPos+1)=='c')
+                            out.push_back(0x76);
+                        //check for shl bx,dx
+                        else if(*(retV+commaPos+1)=='d')
+                            out.push_back(0x77);
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+                //check for shl cx,value16/reg
+                else if(*(retV+commaPos-2)=='c'){
+                    //check for shl cx,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x78);
+                        out.push_back(value);
+                        break;
+                    }
+                    else{
+                        //check for shl cx,ax
+                        if(*(retV+commaPos+1)=='a')
+                            out.push_back(0x79);
+                        //check for shl cx,bx
+                        else if(*(retV+commaPos+1)=='b')
+                            out.push_back(0x7a);
+                        //check for shl cx,dx
+                        else if(*(retV+commaPos+1)=='d')
+                            out.push_back(0x7b);
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
             }
             else if(isShrInstruction){
                 
@@ -714,7 +891,138 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
             }
         }
         else{
-            printf("Instruction not currently implimented\n");
+            //check for not instruction
+            bool isNotInstruction=false,isJmpInstruction=false,isJeInstruction=false,isJlInstruction=false,
+                    isJgInstruction=false;
+            for(int i=0;i<bSize-3;i++){
+                if(*(retV+i)=='n' && *(retV+i+1)=='o' && *(retV+i+2)=='t'){
+                    isNotInstruction=true;
+                    break;
+                }
+                else if(*(retV+i)=='j' && *(retV+i+1)=='m' && *(retV+i+2)=='p'){
+                    isJmpInstruction=true;
+                    break;
+                }
+                else if(*(retV+i)=='j' && *(retV+i+1)=='e'){
+                    isJeInstruction=true;
+                    break;
+                }
+                else if(*(retV+i)=='j' && *(retV+i+1)=='l'){
+                    isJlInstruction=true;
+                    break;
+                }
+                else if(*(retV+i)=='j' && *(retV+i+1)=='g'){
+                    isJgInstruction=true;
+                    break;
+                }
+            }
+            if(isNotInstruction){
+                for(int i=3;i<bSize;i++){
+                    if(*(retV+i)=='a'){
+                        //check for not ax
+                        out.push_back(0x69);
+                        break;
+                    }
+                    else if(*(retV+i)=='b'){
+                        //check for not bx
+                        out.push_back(0x6a);
+                        break;
+                    }
+                    else if(*(retV+i)=='c'){
+                        //check for not cx
+                        out.push_back(0x6b);
+                        break;
+                    }
+                    else if(*(retV+i)=='d'){
+                        //check for not dx
+                        out.push_back(0x6c);
+                        break;
+                    }
+                }
+            }
+            else if(isJmpInstruction){
+                for(int i=3;i<bSize;i++){
+                    if(*(retV+i)!=32 && *(retV+i)!=9){
+                        if(*(retV+i)=='[' && *(retV+i+1)=='a'){
+                            out.push_back(0x5e);
+                            break;
+                        }
+                        else{
+                            bool success;
+                            WORD value=convertCharP(retV+i,&success);
+                            if(success){
+                                out.push_back(0x5d);
+                                out.push_back(value);
+                                break;
+                            }
+                            else{
+                                printf("Error on line: %u\n%s\n",lineNumber,retV);
+                                error=true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else if(isJeInstruction){
+                for(int i=2;i<bSize;i++){
+                    if(*(retV+i)!=32 && *(retV+i)!=9){
+                        bool success;
+                        WORD value=convertCharP(retV+i,&success);
+                        if(success){
+                            out.push_back(0x5f);
+                            out.push_back(value);
+                            break;
+                        }
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+            }
+            else if(isJlInstruction){
+                for(int i=2;i<bSize;i++){
+                    if(*(retV+i)!=32 && *(retV+i)!=9){
+                        bool success;
+                        WORD value=convertCharP(retV+i,&success);
+                        if(success){
+                            out.push_back(0x60);
+                            out.push_back(value);
+                            break;
+                        }
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+            }
+            else if(isJgInstruction){
+                for(int i=2;i<bSize;i++){
+                    if(*(retV+i)!=32 && *(retV+i)!=9){
+                        bool success;
+                        WORD value=convertCharP(retV+i,&success);
+                        if(success){
+                            out.push_back(0x61);
+                            out.push_back(value);
+                            break;
+                        }
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+            }
+            else{
+                printf("Instruction not currently implimented\n");
+                error=true;
+                break;
+            }
         }
         lineNumber++;
     }
