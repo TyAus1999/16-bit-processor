@@ -1191,69 +1191,46 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
                 }
             }
             else if(isIncInstruction){
-                printf("Is Inc\n");
                 for(int i=3;i<bSize;i++){
                     if(*(retV+i)!=32 && *(retV+i)!=9){
-                        bool success;
-                        WORD value=convertCharP(retV+i,&success);
-                        if(success){
-                            printf("Success\n");
-                            if(*(retV+i)=='a'){
-                                out.push_back(0x94);
-                                printf("0x94\n");
-                                break;
-                            }
-                            else if(*(retV+i)=='b'){
-                                out.push_back(0x95);
-                                printf("0x95\n");
-                                break;
-                            }
-                            else if(*(retV+i)=='c'){
-                                out.push_back(0x96);
-                                printf("0x96\n");
-                                break;
-                            }
-                            else if(*(retV+i)=='d'){
-                                out.push_back(0x97);
-                                printf("0x97\n");
-                                break;
-                            }
-                            else{
-                                printf("%s\n",(retV+i));
-                            }
+                        if(*(retV+i)=='a'){
+                            out.push_back(0x94);
+                            break;
                         }
-                        else
-                            printf("False\n");
+                        else if(*(retV+i)=='b'){
+                            out.push_back(0x95);
+                            break;
+                        }
+                        else if(*(retV+i)=='c'){
+                            out.push_back(0x96);
+                            break;
+                        }
+                        else if(*(retV+i)=='d'){
+                            out.push_back(0x97);
+                            break;
+                        }
                     }
                 }
             }
             else if(isDecInstruction){
-                printf("Is Dec\n");
                 for(int i=3;i<bSize;i++){
                     if(*(retV+i)!=32 && *(retV+i)!=9){
-                        bool success;
-                        WORD value=convertCharP(retV+i,&success);
-                        if(success)
-                            if(*(retV+i)=='a'){
-                                out.push_back(0x98);
-                                printf("0x98\n");
-                                break;
-                            }
-                            else if(*(retV+i)=='b'){
-                                out.push_back(0x99);
-                                printf("0x99\n");
-                                break;
-                            }
-                            else if(*(retV+i)=='c'){
-                                out.push_back(0x9a);
-                                printf("0x9a\n");
-                                break;
-                            }
-                            else if(*(retV+i)=='d'){
-                                out.push_back(0x9b);
-                                printf("0x9b\n");
-                                break;
-                            }
+                        if(*(retV+i)=='a'){
+                            out.push_back(0x98);
+                            break;
+                        }
+                        else if(*(retV+i)=='b'){
+                            out.push_back(0x99);
+                            break;
+                        }
+                        else if(*(retV+i)=='c'){
+                            out.push_back(0x9a);
+                            break;
+                        }
+                        else if(*(retV+i)=='d'){
+                            out.push_back(0x9b);
+                            break;
+                        }
                     }
                 }
             }
