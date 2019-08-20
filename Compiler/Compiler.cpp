@@ -862,9 +862,149 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
                         }
                     }
                 }
+                //check for shl dx,value16/reg
+                else if(*(retV+commaPos-2)=='d'){
+                    //check for shl dx,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x7c);
+                        out.push_back(value);
+                        break;
+                    }
+                    else{
+                        //check for shl dx,ax
+                        if(*(retV+commaPos+1)=='a')
+                            out.push_back(0x7d);
+                        //check for shl dx,bx
+                        else if(*(retV+commaPos+1)=='b')
+                            out.push_back(0x7e);
+                        //check for shl dx,cx
+                        else if(*(retV+commaPos+1)=='c')
+                            out.push_back(0x7f);
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+                else{
+                    printf("Not an instruction :%s on line %u\n",retV,lineNumber);
+                    error=true;
+                    break;
+                }
             }
             else if(isShrInstruction){
-                
+                //check for shr ax,value16/reg
+                if(*(retV+commaPos-2)=='a'){
+                    //check for shr ax,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x80);
+                        out.push_back(value);
+                        break;
+                    }
+                    else{
+                        //check for shr ax,bx
+                        if(*(retV+commaPos+1)=='b')
+                            out.push_back(0x81);
+                        //check for shr ax,cx
+                        else if(*(retV+commaPos+1)=='c')
+                            out.push_back(0x82);
+                        //check for shr ax,dx
+                        else if(*(retV+commaPos+1)=='d')
+                            out.push_back(0x83);
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+
+                    }
+                }
+                //check for shr bx,value16/reg
+                else if(*(retV+commaPos-2)=='b'){
+                    //check for shr bx,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x84);
+                        out.push_back(value);
+                        break;
+                    }
+                    else{
+                        //check for shr bx,ax
+                        if(*(retV+commaPos+1)=='a')
+                            out.push_back(0x85);
+                        //check for shr bx,cx
+                        else if(*(retV+commaPos+1)=='c')
+                            out.push_back(0x86);
+                        //check for shr bx,dx
+                        else if(*(retV+commaPos+1)=='d')
+                            out.push_back(0x87);
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+                //check for shr cx,value16/reg
+                else if(*(retV+commaPos-2)=='c'){
+                    //check for shr cx,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x88);
+                        out.push_back(value);
+                        break;
+                    }
+                    else{
+                        //check for shr cx,ax
+                        if(*(retV+commaPos+1)=='a')
+                            out.push_back(0x89);
+                        //check for shr cx,bx
+                        else if(*(retV+commaPos+1)=='b')
+                            out.push_back(0x8a);
+                        //check for shr cx,dx
+                        else if(*(retV+commaPos+1)=='d')
+                            out.push_back(0x8b);
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
+                //check for shr dx,value16/reg
+                else if(*(retV+commaPos-2)=='d'){
+                    //check for shr dx,value16
+                    bool success;
+                    WORD value=convertCharP(retV+commaPos+1,&success);
+                    if(success){
+                        out.push_back(0x8c);
+                        out.push_back(value);
+                        break;
+                    }
+                    else{
+                        //check for shr dx,ax
+                        if(*(retV+commaPos+1)=='a')
+                            out.push_back(0x8d);
+                        //check for shr dx,bx
+                        else if(*(retV+commaPos+1)=='b')
+                            out.push_back(0x8e);
+                        //check for shr dx,cx
+                        else if(*(retV+commaPos+1)=='c')
+                            out.push_back(0x8f);
+                        else{
+                            printf("Error on line: %u\n%s\n",lineNumber,retV);
+                            error=true;
+                            break;
+                        }
+                    }
+                }
             }
             else{
                 printf("Not an instruction :%s on line %u\n",retV,lineNumber);
@@ -893,7 +1033,7 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
         else{
             //check for not instruction
             bool isNotInstruction=false,isJmpInstruction=false,isJeInstruction=false,isJlInstruction=false,
-                    isJgInstruction=false;
+                    isJgInstruction=false,isZInstruction=false,isIncInstruction=false,isDecInstruction=false;
             for(int i=0;i<bSize-3;i++){
                 if(*(retV+i)=='n' && *(retV+i+1)=='o' && *(retV+i+2)=='t'){
                     isNotInstruction=true;
@@ -913,6 +1053,18 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
                 }
                 else if(*(retV+i)=='j' && *(retV+i+1)=='g'){
                     isJgInstruction=true;
+                    break;
+                }
+                else if(*(retV+i)=='z'){
+                    isZInstruction=true;
+                    break;
+                }
+                else if(*(retV+i)=='i' && *(retV+i+1)=='n' && *(retV+i+2)=='c'){
+                    isIncInstruction=true;
+                    break;
+                }
+                else if(*(retV+i)=='d' && *(retV+i+1)=='e' && *(retV+i+2)=='c'){
+                    isDecInstruction=true;
                     break;
                 }
             }
@@ -1015,6 +1167,93 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
                             error=true;
                             break;
                         }
+                    }
+                }
+            }
+            else if(isZInstruction){
+                for(int i=0;i<bSize;i++){
+                    if(*(retV+i)=='a'){
+                        out.push_back(0x90);
+                        break;
+                    }
+                    else if(*(retV+i)=='b'){
+                        out.push_back(0x91);
+                        break;
+                    }
+                    else if(*(retV+i)=='c'){
+                        out.push_back(0x92);
+                        break;
+                    }
+                    else if(*(retV+i)=='d'){
+                        out.push_back(0x93);
+                        break;
+                    }
+                }
+            }
+            else if(isIncInstruction){
+                printf("Is Inc\n");
+                for(int i=3;i<bSize;i++){
+                    if(*(retV+i)!=32 && *(retV+i)!=9){
+                        bool success;
+                        WORD value=convertCharP(retV+i,&success);
+                        if(success){
+                            printf("Success\n");
+                            if(*(retV+i)=='a'){
+                                out.push_back(0x94);
+                                printf("0x94\n");
+                                break;
+                            }
+                            else if(*(retV+i)=='b'){
+                                out.push_back(0x95);
+                                printf("0x95\n");
+                                break;
+                            }
+                            else if(*(retV+i)=='c'){
+                                out.push_back(0x96);
+                                printf("0x96\n");
+                                break;
+                            }
+                            else if(*(retV+i)=='d'){
+                                out.push_back(0x97);
+                                printf("0x97\n");
+                                break;
+                            }
+                            else{
+                                printf("%s\n",(retV+i));
+                            }
+                        }
+                        else
+                            printf("False\n");
+                    }
+                }
+            }
+            else if(isDecInstruction){
+                printf("Is Dec\n");
+                for(int i=3;i<bSize;i++){
+                    if(*(retV+i)!=32 && *(retV+i)!=9){
+                        bool success;
+                        WORD value=convertCharP(retV+i,&success);
+                        if(success)
+                            if(*(retV+i)=='a'){
+                                out.push_back(0x98);
+                                printf("0x98\n");
+                                break;
+                            }
+                            else if(*(retV+i)=='b'){
+                                out.push_back(0x99);
+                                printf("0x99\n");
+                                break;
+                            }
+                            else if(*(retV+i)=='c'){
+                                out.push_back(0x9a);
+                                printf("0x9a\n");
+                                break;
+                            }
+                            else if(*(retV+i)=='d'){
+                                out.push_back(0x9b);
+                                printf("0x9b\n");
+                                break;
+                            }
                     }
                 }
             }
