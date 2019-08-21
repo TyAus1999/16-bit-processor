@@ -4,6 +4,11 @@
 
 typedef unsigned short int WORD;
 
+struct macroStruct{
+    char* line;
+    int lineSize;
+};
+
 int getSizeOfCharPtr(char*in){
     int length=0;
     while(1){
@@ -90,6 +95,25 @@ WORD convertCharP(char*in,bool*success){//Hex-h Binary-i Blank for decimal
     }
     return out;
 }
+void macroASM(char*in){
+    FILE*cFile=fopen(in,"r");
+    int lineSize=2048;
+    char* retV;
+    char buffer[lineSize];
+    bool error=false;
+    unsigned int lineNumber=1;
+    while(!error){
+        retV=fgets(buffer,lineSize,(FILE*)cFile);
+
+        for(int i=0;i<lineSize;i++){
+            if(*(retV+i)=='i')
+                if(*(retV+i+1)=='f'){
+
+                }
+        }
+    }
+    fclose(cFile);
+}
 std::vector<WORD> compile2(char*in){
     FILE*asmFile=fopen(in,"r");
     std::vector<WORD> out;
@@ -140,7 +164,7 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
     FILE*asmFile=fopen(in,"r");
     std::vector<WORD> out;
 
-    bool error=false;
+    bool error=false,isMacro=false;
     char* retV;
     int bSize=255;
     char buffer[bSize];
@@ -1013,13 +1037,27 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
             }
         }
         else if(periodPos!=-1){//check for .macros
-            bool isWordMacro=false;
+            bool isWordMacro=false,isMacroMacro=false,isEndMacro=false,isOrgMacro=false;
             for(int i=periodPos+1;i<bSize-3;i++){
                 //check for .word macro
                 if(*(retV+i)=='w' && *(retV+i+1)=='o' && *(retV+i+2)=='r' && *(retV+i+3)=='d'){
                     isWordMacro=true;
                     break;
-                } 
+                }
+                else if(*(retV+i)=='m' && *(retV+i+1)=='a' && *(retV+i+2)=='c' && *(retV+i+3)=='r' && *(retV+i+4)=='o'){
+                    isMacroMacro=true;
+                    isMacro=true;
+                    break;
+                }
+                else if(*(retV+i)=='e' && *(retV+i+1)=='n' && *(retV+i+2)=='d' && *(retV+i+3)=='m' && *(retV+i+4)=='a' && *(retV+i+5)=='c' && *(retV+i+6)=='r' && *(retV+i+7)=='o'){
+                    isMacro=false;
+                    isEndMacro=true;
+                    break;
+                }
+                else if(*(retV+i)=='o' && *(retV+i+1)=='r' && *(retV+i+2)=='g'){
+                    isOrgMacro=true;
+                    break;
+                }
             }
             if(isWordMacro){
                 bool success;
@@ -1027,6 +1065,24 @@ std::vector<WORD> compile1(char*in){//remaster of compile0
                 if(success)out.push_back(value);
                 else{
                     printf("Not success\n");
+                }
+            }
+            else if(isMacroMacro){
+                char* line[bSize];
+                for(int i=0;i<bSize;i++){
+                    int toUse=i+periodPos+7;
+                    *line[i]=*(retV+toUse);
+                }
+            }
+            else if(isEndMacro){
+
+            }
+            else if(isOrgMacro){
+                bool success;
+                WORD value=convertCharP(retV+periodPos+5,&success);
+                if(success){
+                    for(int i=0;i<value;i++)
+                        out.push_back(0);
                 }
             }
         }
@@ -1970,7 +2026,6 @@ void writeToFile(std::vector<WORD> toFile,char*fileName){
     }
     fclose(out);
 }
-
 int main(int argc, char **argv){
     //argv[1] is the file name
     //printf("Size of WORD:%i\n",sizeof(WORD));
