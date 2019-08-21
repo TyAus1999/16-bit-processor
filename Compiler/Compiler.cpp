@@ -125,6 +125,7 @@ struct instruction{
 struct macro{
     instruction* instructions;
     char*name;
+    unsigned int numOfInstructions;
 };
 std::vector<WORD> compile3(FILE*asmFile){//version of compiler includes labels and macros
     std::vector<WORD> out;
@@ -142,8 +143,7 @@ std::vector<WORD> compile3(FILE*asmFile){//version of compiler includes labels a
         readFile:
         retV=fgets(buffer,bSize,(FILE*)asmFile);
         if(retV==NULL)break;
-        else if(*retV==10 || * retV==13){
-            lineNumber++;
+        else if(*retV==10 || *retV==13){
             goto readFile;
         }
         char*temp=new char[bSize+1];
@@ -158,10 +158,43 @@ std::vector<WORD> compile3(FILE*asmFile){//version of compiler includes labels a
         fileContents.push_back(tempLine);
         lineNumber++;
     }
-    //pre processing
-    //extracts comments and puts instructions into the list
-    //also puts the instructions into a macro if defined
+    //pre comp Stage 1
+    //removes comments from line of code
+    //comments are denoted in the c mannor minus the multi line commenting (No clue how to do that just yet)
+    for(int i=0;i<fileContents.size();i++){
+        for(int ch=0;ch<bSize+1;ch++){
+            char* temp=fileContents[i].line;
+            if(*(temp+ch)=='/' && *(temp+ch+1)=='/'){//remove line
+                for(int tempRemove=ch;tempRemove<bSize;tempRemove++)
+                    *(temp+tempRemove)=0;
+            }
+        }
+    }
+    //pre comp Stage 2
+    //removes empty lines left over by comment purge and frees memory
+    std::vector<int> indexsToRemove;
+    for(int i=0;i<fileContents.size();i++){
+        if(*fileContents[i].line==0){
+            indexsToRemove.push_back(i);
+            delete[] fileContents[i].line;
+        }
+    }
+    for(int i=0;i<indexsToRemove.size();i++)
+        fileContents.erase(fileContents.begin()+indexsToRemove[i]);
+    //pre comp Stage 3
+    //searches for macro definitions
+
+    //pre comp Stage 4
+    //search for labels
+
     
+    
+    
+
+
+    for(int i=0;i<fileContents.size();i++){
+        delete[] fileContents[i].line;
+    }
 }
 std::vector<WORD> compile1(char*in){//remaster of compile0
     FILE*asmFile=fopen(in,"r");
