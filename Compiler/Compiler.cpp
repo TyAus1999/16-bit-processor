@@ -109,6 +109,19 @@ void macroASM(char*in){
     }
     fclose(cFile);
 }
+bool compareString(char*in,char*compare){
+    unsigned int offset=0;
+    while(1){
+        if(*(in+offset)==0 && *(compare+offset)==0)
+            break;
+        else if(*(in+offset)!=*(compare+offset))
+            return false;
+        else if(offset==(unsigned int)-1)
+            break;
+        offset++;
+    }
+    return true;
+}
 struct asmLine{
     char*line;
     unsigned int lineNumber;
@@ -123,9 +136,8 @@ struct instruction{
     WORD data;
 };
 struct macro{
-    instruction* instructions;
+    std::vector<instruction> instructions;
     char*name;
-    unsigned int numOfInstructions;
 };
 std::vector<WORD> compile3(FILE*asmFile){//version of compiler includes labels and macros
     std::vector<WORD> out;
@@ -183,18 +195,72 @@ std::vector<WORD> compile3(FILE*asmFile){//version of compiler includes labels a
         fileContents.erase(fileContents.begin()+indexsToRemove[i]);
     //pre comp Stage 3
     //searches for macro definitions
-
+    bool foundMacro=false;
+    indexsToRemove.clear();
+    for(int i=0;i<fileContents.size();i++){
+        char*l=fileContents[i].line;
+        for(int p=0;p<bSize;p++){
+            if(*(l+p)=='.' && *(l+p+1)=='m' && *(l+p+2)=='a' && *(l+p+3)=='c' && *(l+p+4)=='r' && *(l+p+5)=='o'){
+                foundMacro=true;
+                macro m;
+                int count=0;
+                for(int ch=p+7;ch<bSize;ch++)
+                    if(*(l+ch)!=0)count++;
+                    else break;
+                char* n=new char[count];
+                m.name=n;
+                macros.push_back(m);
+                break;
+            }
+            else if(*(l+p)=='.' && *(l+p+1)=='e' && *(l+p+2)=='n' && *(l+p+3)=='d' && *(l+p+4)=='m' && *(l+p+5)=='a' && *(l+p+6)=='c' && *(l+p+7)=='r' && *(l+p+8)=='o'){
+                foundMacro=false;
+                break;
+            }
+        }
+        if(foundMacro){
+            instruction ins;
+            int count=0;
+            for(int p=0;p<bSize;p++)
+                if(*(l+p)!=0)count++;
+                else break;
+            char*t=new char[count];
+            for(int p=0;p<count;p++)
+                t[p]=*(l+p);
+            macros[macros.size()-1].instructions.push_back(ins);
+            indexsToRemove.push_back(i);
+        }
+    }
+    for(int i=0;<indexsToRemove.size();i++)
+        fileContents.erase(fileContents.begin()+indexsToRemove[i]);
     //pre comp Stage 4
     //search for labels
-
-    
-    
-    
-
-
     for(int i=0;i<fileContents.size();i++){
-        delete[] fileContents[i].line;
+        char*l=fileContents[i].line;
+        for(int ch=0;ch<bSize;ch++){
+            if(*(l+ch)==':'){
+                
+            }
+        }
     }
+    //pre comp Stage 5
+    //set addresses for the labels
+
+    //com stage 1
+    //convert instructions to byte code
+
+
+    
+    
+    for(int i=0;i<macros.size();i++){
+        delete[] macros[i].name;
+        for(int p=0;p<macros[i].instructions.size();p++)
+            delete[] macros[i].instructions[p].line;
+    }
+    for(int i=0;i<instructions.size();i++)
+        delete[] instructions[i].line;
+    for(int i=0;i<fileContents.size();i++)
+        delete[] fileContents[i].line;
+    return out;
 }
 std::vector<WORD> compile1(char*in){//remaster of compile0
     FILE*asmFile=fopen(in,"r");
