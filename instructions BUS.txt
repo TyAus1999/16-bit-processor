@@ -102,7 +102,7 @@ Arithmatic: dest=dest<Math Operation>reg
 	Add in add reg,value16
 	Add in sub reg,vlaue16
 	Maybe multiplication and division instructions? 
-	Possible float? (sounds like a cluster fuck)
+	Possible float?
 
 Comparisons:
 	cmp	ax,bx		0x004d
