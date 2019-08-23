@@ -128,6 +128,7 @@ struct asmLine{
 };
 struct asmLabel{
     char*name;
+    unsigned int lineNumber;
 };
 struct instruction{
     char* line;
@@ -191,8 +192,6 @@ std::vector<WORD> compile3(FILE*asmFile){//version of compiler includes labels a
             delete[] fileContents[i].line;
         }
     }
-    for(int i=0;i<indexsToRemove.size();i++)
-        fileContents.erase(fileContents.begin()+indexsToRemove[i]);
     //pre comp Stage 3
     //searches for macro definitions
     bool foundMacro=false;
@@ -230,21 +229,29 @@ std::vector<WORD> compile3(FILE*asmFile){//version of compiler includes labels a
             indexsToRemove.push_back(i);
         }
     }
-    for(int i=0;<indexsToRemove.size();i++)
-        fileContents.erase(fileContents.begin()+indexsToRemove[i]);
     //pre comp Stage 4
     //search for labels
     for(int i=0;i<fileContents.size();i++){
         char*l=fileContents[i].line;
         for(int ch=0;ch<bSize;ch++){
             if(*(l+ch)==':'){
-                
+                char*labelName=new char[ch];
+                labelName[ch-1]=0;
+                for(int p=ch-2;p>-1;p++)
+                    labelName[p]=*(l+p);
+                asmLabel lab;
+                lab.name=labelName;
+                lab.lineNumber=i;
+                labels.push_back(lab);
+                indexsToRemove.push_back(i);
             }
         }
     }
     //pre comp Stage 5
     //set addresses for the labels
-
+    
+    for(int i=0;i<indexsToRemove.size();i++)
+        fileContents.erase(fileContents.begin()+indexsToRemove[i]);
     //com stage 1
     //convert instructions to byte code
 
