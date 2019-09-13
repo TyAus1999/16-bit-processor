@@ -37,9 +37,9 @@ Memory Access:
 	mov	cx,[cx]		0x001b ~	3clk
 	mov	cx,[dx]		0x001c ~	3clk
 
-	mov	dx,[ax]		0x001d
-	mov	dx,[bx]		0x001e
-	mov	dx,[cx]		0x001f
+	mov	dx,[ax]		0x001d ~	3clk
+	mov	dx,[bx]		0x001e ~	3clk
+	mov	dx,[cx]		0x001f ~	3clk
 	mov	dx,[dx]		0x0020
 
 	mov	[ax],ax		0x0021
