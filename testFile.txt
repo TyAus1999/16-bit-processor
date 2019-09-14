@@ -1,0 +1,9 @@
+mov dx,100
+mov	ax,1
+mov bx,1
+add ax,bx
+mov [dx],ax
+mov ax,1
+mov cx,2
+add ax,cx
+mov [dx],ax
