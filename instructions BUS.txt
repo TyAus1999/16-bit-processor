@@ -40,27 +40,27 @@ Memory Access:
 	mov	dx,[ax]		0x001d ~	3clk
 	mov	dx,[bx]		0x001e ~	3clk
 	mov	dx,[cx]		0x001f ~	3clk
-	mov	dx,[dx]		0x0020
+	mov	dx,[dx]		0x0020 ~	3clk
 
-	mov	[ax],ax		0x0021
-	mov	[ax],bx		0x0022
-	mov	[ax],cx		0x0023
-	mov	[ax],dx		0x0024
+	mov	[ax],ax		0x0021 ~	3clk
+	mov	[ax],bx		0x0022 ~	3clk
+	mov	[ax],cx		0x0023 ~	3clk
+	mov	[ax],dx		0x0024 ~	3clk
 
-	mov	[bx],ax		0x0025
-	mov	[bx],bx		0x0026
-	mov	[bx],cx		0x0027
-	mov	[bx],dx		0x0028
+	mov	[bx],ax		0x0025 ~	3clk
+	mov	[bx],bx		0x0026 ~	3clk
+	mov	[bx],cx		0x0027 ~	3clk
+	mov	[bx],dx		0x0028 ~	3clk
 
-	mov	[cx],ax		0x0029
-	mov	[cx],bx		0x002a
-	mov	[cx],cx		0x002b
-	mov	[cx],dx		0x002c
+	mov	[cx],ax		0x0029 ~	3clk
+	mov	[cx],bx		0x002a ~	3clk
+	mov	[cx],cx		0x002b ~	3clk
+	mov	[cx],dx		0x002c ~	3clk
 
-	mov	[dx],ax		0x002d
-	mov	[dx],bx		0x002e
-	mov	[dx],cx		0x002f
-	mov	[dx],dx		0x0030
+	mov	[dx],ax		0x002d ~	3clk
+	mov	[dx],bx		0x002e ~	3clk
+	mov	[dx],cx		0x002f ~	3clk
+	mov	[dx],dx		0x0030 ~	3clk
 	
 Arithmatic: dest=dest<Math Operation>reg
 	add	ax,ax		0x0031
