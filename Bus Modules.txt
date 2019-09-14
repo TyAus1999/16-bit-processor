@@ -17,3 +17,8 @@ BUS RAM
 		0b101:set 0
 		0b110:Read/Write BUS
 	
+	BUS Math Unit: multiple at a time
+		0b000X:	load top/bottom with value16
+		0b00X0:	add/subtract
+		0b0X00:	write to bus
+		0bX000: load enable
