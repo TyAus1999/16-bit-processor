@@ -64,14 +64,14 @@ Memory Access:
 	
 Arithmatic: dest=dest<Math Operation>reg
 	add	ax,ax		0x0031 ~	4clk
-	add	ax,bx		0x0032
-	add	ax,cx		0x0033
-	add	ax,dx		0x0034
+	add	ax,bx		0x0032 ~	4clk
+	add	ax,cx		0x0033 ~	4clk
+	add	ax,dx		0x0034 ~	4clk
 
-	add	bx,ax		0x0035
-	add	bx,bx		0x0036
-	add	bx,cx		0x0037
-	add	bx,dx		0x0038
+	add	bx,ax		0x0035 ~	4clk
+	add	bx,bx		0x0036 ~	4clk
+	add	bx,cx		0x0037 ~	4clk
+	add	bx,dx		0x0038 ~	4clk
 
 	add	cx,ax		0x0039
 	add	cx,bx		0x003a
@@ -227,6 +227,17 @@ Misc Instructions:
 	mov	[value16],bx	0x00a2
 	mov	[value16],cx	0x00a3
 	mov	[value16],dx	0x00a4
+	
+	after thought math instructions
+	add	ax,value16		0x00a5
+	add	bx,value16		0x00a6
+	add	cx,value16		0x00a7
+	add	dx,value16		0x00a8
+	
+	sub	ax,value16		0x00a9
+	sub	bx,value16		0x00aa
+	sub	cx,value16		0x00ab
+	sub	dx,value16		0x00ac
 
 Graphics instructions:
 
