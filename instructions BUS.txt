@@ -99,8 +99,6 @@ Arithmatic: dest=dest<Math Operation>reg
 	sub	dx,bx		0x004b
 	sub	dx,cx		0x004c
 
-	Add in add reg,value16
-	Add in sub reg,vlaue16
 	Maybe multiplication and division instructions? 
 	Possible float?
 
