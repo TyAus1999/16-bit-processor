@@ -84,7 +84,7 @@ Arithmatic: dest=dest<Math Operation>reg
 	add	dx,dx		0x0040 ~	4clk
 
 	sub	ax,bx		0x0041 ~	4clk
-	sub	ax,cx		0x0042
+	sub	ax,cx		0x0042 ~	4clk
 	sub	ax,dx		0x0043
 
 	sub	bx,ax		0x0044
