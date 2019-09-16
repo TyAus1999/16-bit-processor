@@ -83,7 +83,7 @@ Arithmatic: dest=dest<Math Operation>reg
 	add	dx,cx		0x003f ~	4clk
 	add	dx,dx		0x0040 ~	4clk
 
-	sub	ax,bx		0x0041
+	sub	ax,bx		0x0041 ~	4clk
 	sub	ax,cx		0x0042
 	sub	ax,dx		0x0043
 
