@@ -80,8 +80,8 @@ Arithmatic: dest=dest<Math Operation>reg
 	
 	add	dx,ax		0x003d ~	4clk
 	add	dx,bx		0x003e ~	4clk
-	add	dx,cx		0x003f
-	add	dx,dx		0x0040
+	add	dx,cx		0x003f ~	4clk
+	add	dx,dx		0x0040 ~	4clk
 
 	sub	ax,bx		0x0041
 	sub	ax,cx		0x0042
