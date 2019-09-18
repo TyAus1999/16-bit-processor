@@ -91,13 +91,13 @@ Arithmatic: dest=dest<Math Operation>reg
 	sub	bx,cx		0x0045 ~	4clk
 	sub	bx,dx		0x0046 ~	4clk
 
-	sub	cx,ax		0x0047
-	sub	cx,bx		0x0048
-	sub	cx,dx		0x0049
+	sub	cx,ax		0x0047 ~	4clk
+	sub	cx,bx		0x0048 ~	4clk
+	sub	cx,dx		0x0049 ~	4clk
 
-	sub	dx,ax		0x004a
-	sub	dx,bx		0x004b
-	sub	dx,cx		0x004c
+	sub	dx,ax		0x004a ~	4clk
+	sub	dx,bx		0x004b ~	4clk
+	sub	dx,cx		0x004c ~	4clk
 
 	Maybe multiplication and division instructions? 
 	Possible float?
