@@ -22,3 +22,12 @@ BUS RAM
 		0b00X0:	add/subtract
 		0b0X00:	write to bus
 		0bX000: load enable
+		
+	BUS Comparator:
+		Instruction Line:
+			0b00X: Register Selector
+			0b0X0: Register Enable Write
+		Comparison Line:
+			0b01: Less then
+			0b10: Greater then
+			0b11: Equal
