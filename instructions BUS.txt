@@ -1,241 +1,275 @@
 16 bit
 Registers: ax,bx,cx,dx, without x is low byte
-	mov	ax,value16	0x0001 ~	3clk
-	mov	bx,value16	0x0002 ~	3clk
-	mov	cx,value16	0x0003 ~	3clk
-	mov	dx,value16	0x0004 ~	3clk
-
-	mov	ax,bx		0x0005 ~	2clk
-	mov	ax,cx		0x0006 ~	2clk
-	mov	ax,dx		0x0007 ~	2clk
 	
-	mov	bx,ax		0x0008 ~	2clk
-	mov	bx,cx		0x0009 ~	2clk
-	mov	bx,dx		0x000a ~	2clk
-
-	mov	cx,ax		0x000b ~	2clk
-	mov	cx,bx		0x000c ~	2clk
-	mov	cx,dx		0x000d ~	2clk
+	56 mov instructions
 	
-	mov	dx,ax		0x000e ~	2clk
-	mov	dx,bx		0x000f ~	2clk
-	mov	dx,cx		0x0010 ~	2clk
-	
-Memory Access:
-	mov	ax,[ax]		0x0011 ~	3clk
-	mov	ax,[bx]		0x0012 ~	3clk
-	mov	ax,[cx]		0x0013 ~	3clk
-	mov	ax,[dx]		0x0014 ~	3clk
-	
-	mov	bx,[ax]		0x0015 ~	3clk
-	mov	bx,[bx]		0x0016 ~	3clk
-	mov	bx,[cx]		0x0017 ~	3clk
-	mov	bx,[dx]		0x0018 ~	3clk
+	mov	ax,value16		
+	mov	bx,value16		
+	mov	cx,value16		
+	mov	dx,value16		
+                        
+	mov	ax,bx			
+	mov	ax,cx			
+	mov	ax,dx			
+	                    
+	mov	bx,ax			
+	mov	bx,cx			
+	mov	bx,dx			
+                        
+	mov	cx,ax			
+	mov	cx,bx			
+	mov	cx,dx				
+	                    
+	mov	dx,ax			
+	mov	dx,bx			
+	mov	dx,cx			
+	                    
+	mov	ax,[ax]			
+	mov	ax,[bx]			
+	mov	ax,[cx]				
+	mov	ax,[dx]			
+	                    
+	mov	bx,[ax]				
+	mov	bx,[bx]			
+	mov	bx,[cx]			
+	mov	bx,[dx]			
+                        
+	mov	cx,[ax]			
+	mov	cx,[bx]				
+	mov	cx,[cx]			
+	mov	cx,[dx]			
+                        
+	mov	dx,[ax]			
+	mov	dx,[bx]			
+	mov	dx,[cx]			
+	mov	dx,[dx]			
+                        
+	mov	[ax],ax			
+	mov	[ax],bx			
+	mov	[ax],cx			
+	mov	[ax],dx			
+                        
+	mov	[bx],ax			
+	mov	[bx],bx			
+	mov	[bx],cx			
+	mov	[bx],dx			
+                        
+	mov	[cx],ax			
+	mov	[cx],bx			
+	mov	[cx],cx			
+	mov	[cx],dx			
+                    
+	mov	[dx],ax		
+	mov	[dx],bx		
+	mov	[dx],cx		
+	mov	[dx],dx	
 
-	mov	cx,[ax]		0x0019 ~	3clk
-	mov	cx,[bx]		0x001a ~	3clk
-	mov	cx,[cx]		0x001b ~	3clk
-	mov	cx,[dx]		0x001c ~	3clk
+	mov	ax,[value16]	
+	mov	bx,[value16]	
+	mov	cx,[value16]	
+	mov	dx,[value16]	
 
-	mov	dx,[ax]		0x001d ~	3clk
-	mov	dx,[bx]		0x001e ~	3clk
-	mov	dx,[cx]		0x001f ~	3clk
-	mov	dx,[dx]		0x0020 ~	3clk
-
-	mov	[ax],ax		0x0021 ~	3clk
-	mov	[ax],bx		0x0022 ~	3clk
-	mov	[ax],cx		0x0023 ~	3clk
-	mov	[ax],dx		0x0024 ~	3clk
-
-	mov	[bx],ax		0x0025 ~	3clk
-	mov	[bx],bx		0x0026 ~	3clk
-	mov	[bx],cx		0x0027 ~	3clk
-	mov	[bx],dx		0x0028 ~	3clk
-
-	mov	[cx],ax		0x0029 ~	3clk
-	mov	[cx],bx		0x002a ~	3clk
-	mov	[cx],cx		0x002b ~	3clk
-	mov	[cx],dx		0x002c ~	3clk
-
-	mov	[dx],ax		0x002d ~	3clk
-	mov	[dx],bx		0x002e ~	3clk
-	mov	[dx],cx		0x002f ~	3clk
-	mov	[dx],dx		0x0030 ~	3clk
+	mov	[value16],ax	
+	mov	[value16],bx	
+	mov	[value16],cx	
+	mov	[value16],dx	
 	
 Arithmatic: dest=dest<Math Operation>reg
-	add	ax,ax		0x0031 ~	4clk
-	add	ax,bx		0x0032 ~	4clk
-	add	ax,cx		0x0033 ~	4clk
-	add	ax,dx		0x0034 ~	4clk
-
-	add	bx,ax		0x0035 ~	4clk
-	add	bx,bx		0x0036 ~	4clk
-	add	bx,cx		0x0037 ~	4clk
-	add	bx,dx		0x0038 ~	4clk
-
-	add	cx,ax		0x0039 ~	4clk
-	add	cx,bx		0x003a ~	4clk
-	add	cx,cx		0x003b ~	4clk
-	add	cx,dx		0x003c ~	4clk
 	
-	add	dx,ax		0x003d ~	4clk
-	add	dx,bx		0x003e ~	4clk
-	add	dx,cx		0x003f ~	4clk
-	add	dx,dx		0x0040 ~	4clk
+	20 add instructions
+	
+	add	ax,ax		
+	add	ax,bx		
+	add	ax,cx		
+	add	ax,dx		
 
-	sub	ax,bx		0x0041 ~	4clk
-	sub	ax,cx		0x0042 ~	4clk
-	sub	ax,dx		0x0043 ~	4clk
+	add	bx,ax		
+	add	bx,bx		
+	add	bx,cx		
+	add	bx,dx		
 
-	sub	bx,ax		0x0044 ~	4clk
-	sub	bx,cx		0x0045 ~	4clk
-	sub	bx,dx		0x0046 ~	4clk
+	add	cx,ax		
+	add	cx,bx		
+	add	cx,cx		
+	add	cx,dx		
+	
+	add	dx,ax		
+	add	dx,bx		
+	add	dx,cx		
+	add	dx,dx	
 
-	sub	cx,ax		0x0047 ~	4clk
-	sub	cx,bx		0x0048 ~	4clk
-	sub	cx,dx		0x0049 ~	4clk
+	add	ax,value16		
+	add	bx,value16		
+	add	cx,value16		
+	add	dx,value16	
 
-	sub	dx,ax		0x004a ~	4clk
-	sub	dx,bx		0x004b ~	4clk
-	sub	dx,cx		0x004c ~	4clk
+	16 sub instructions
+	
+	sub	ax,bx		
+	sub	ax,cx		
+	sub	ax,dx		
+
+	sub	bx,ax		
+	sub	bx,cx		
+	sub	bx,dx		
+
+	sub	cx,ax		
+	sub	cx,bx		
+	sub	cx,dx		
+
+	sub	dx,ax		
+	sub	dx,bx		
+	sub	dx,cx	
+	
+	sub	ax,value16		
+	sub	bx,value16		
+	sub	cx,value16		
+	sub	dx,value16	
 
 	Maybe multiplication and division instructions? 
 	Possible float?
 
 Comparisons:
-	cmp	ax,bx		0x004d
-	cmp	ax,cx		0x004e
-	cmp	ax,dx		0x004f
 
-	cmp	bx,ax		0x0050
-	cmp	bx,cx		0x0051
-	cmp	bx,dx		0x0052
+	32 cmp instructions
 
-	cmp	cx,ax		0x0053
-	cmp	cx,bx		0x0054
-	cmp	cx,dx		0x0055
+	cmp	ax,bx		
+	cmp	ax,cx		
+	cmp	ax,dx	
+	cmp	ax,value16
+	cmp	ax,[bx]
+	cmp	ax,[cx]
+	cmp	ax,[dx]
+	cmp	ax,[value16]
 
-	cmp	dx,ax		0x0056
-	cmp	dx,bx		0x0057
-	cmp	dx,cx		0x0058
+	cmp	bx,ax		
+	cmp	bx,cx		
+	cmp	bx,dx	
+	cmp	bx,value16	
+	cmp	bx,[ax]
+	cmp	bx,[cx]
+	cmp	bx,[dx]
+	cmp	bx,[value16]
 
-	cmp	ax,value16	0x0059
-	cmp	bx,value16	0x005a
-	cmp	cx,value16	0x005b
-	cmp	dx,value16	0x005c
-	
-	Add cmp reg,[reg]
-	Add cmp reg,[value16]
+	cmp	cx,ax		
+	cmp	cx,bx		
+	cmp	cx,dx
+	cmp	cx,value16	
+	cmp	cx,[ax]
+	cmp	cx,[bx]
+	cmp	cx,[dx]
+	cmp	cx,[value16]
+
+	cmp	dx,ax		
+	cmp	dx,bx		
+	cmp	dx,cx
+	cmp	dx,value16	
+	cmp	dx,[ax]
+	cmp	dx,[bx]
+	cmp	dx,[cx]
+	cmp	dx,[value16]
 	
 Jumps:
-	jmp	address16	0x005d
-	jmp	[ax]		0x005e
+
+	8 jump instructions
+
+	jmp	address16	
+	jmp	[ax]	
+	jmp	[bx]
+	jmp	[cx]
+	jmp	[dx]
 	
-	je	address16	0x005f
-	jl	address16	0x0060
-	jg	address16	0x0061
+	je	address16	
+	jl	address16	
+	jg	address16	
 
-Boolean:
-	and	ax,ax		0x0062
-	and	ax,bx		0x0063
-	and	ax,cx		0x0064
-	and	ax,dx		0x0065
+Bit wise Instructions:
 
-	or	ax,bx		0x0066
-	or	ax,cx		0x0067
-	or	ax,dx		0x0068
+	14 bitwise instructions
+	
+	and	ax,ax		
+	and	ax,bx		
+	and	ax,cx		
+	and	ax,dx		
 
-	not	ax			0x0069
-	not	bx			0x006a
-	not	cx			0x006b
-	not	dx			0x006c
+	or	ax,bx		
+	or	ax,cx		
+	or	ax,dx		
 
-	xor	ax,bx		0x006d
-	xor	ax,cx		0x006e
-	xor	ax,dx		0x006f
+	not	ax			
+	not	bx			
+	not	cx			
+	not	dx			
+
+	xor	ax,bx		
+	xor	ax,cx		
+	xor	ax,dx		
 	
 Shifting Instructions:
-	shl	ax,value16	0x0070
-	shl	ax,bx		0x0071
-	shl	ax,cx		0x0072
-	shl	ax,dx		0x0073
 
-	shl	bx,value16	0x0074
-	shl	bx,ax		0x0075
-	shl	bx,cx		0x0076
-	shl	bx,dx		0x0077
+	32 shifting instructions
+
+	shl	ax,value16	
+	shl	ax,bx		
+	shl	ax,cx		
+	shl	ax,dx		
+
+	shl	bx,value16	
+	shl	bx,ax		
+	shl	bx,cx		
+	shl	bx,dx		
 	
-	shl	cx,value16	0x0078
-	shl	cx,ax		0x0079
-	shl	cx,bx		0x007a
-	shl	cx,dx		0x007b
+	shl	cx,value16	
+	shl	cx,ax		
+	shl	cx,bx		
+	shl	cx,dx		
 
-	shl	dx,value16	0x007c
-	shl	dx,ax		0x007d
-	shl	dx,bx		0x007e
-	shl	dx,cx		0x007f
+	shl	dx,value16	
+	shl	dx,ax		
+	shl	dx,bx		
+	shl	dx,cx		
 
-	shr	ax,value16	0x0080
-	shr	ax,bx		0x0081
-	shr	ax,cx		0x0082
-	shr	ax,dx		0x0083
+	shr	ax,value16	
+	shr	ax,bx		
+	shr	ax,cx		
+	shr	ax,dx		
 
-	shr	bx,value16	0x0084
-	shr	bx,ax		0x0085
-	shr	bx,cx		0x0086
-	shr	bx,dx		0x0087
+	shr	bx,value16	
+	shr	bx,ax		
+	shr	bx,cx		
+	shr	bx,dx		
 
-	shr	cx,value16	0x0088
-	shr	cx,ax		0x0089
-	shr	cx,bx		0x008a
-	shr	cx,dx		0x008b
+	shr	cx,value16	
+	shr	cx,ax		
+	shr	cx,bx		
+	shr	cx,dx		
 
-	shr	dx,value16	0x008c
-	shr	dx,ax		0x008d
-	shr	dx,bx		0x008e
-	shr	dx,cx		0x008f
+	shr	dx,value16	
+	shr	dx,ax		
+	shr	dx,bx		
+	shr	dx,cx		
 
 Misc Instructions:
-
+	
+	12 misc instructions
+	
 	sets register to zero
-	z	ax			0x0090
-	z	bx			0x0091
-	z	cx			0x0092
-	z	dx			0x0093
+	z	ax			
+	z	bx			
+	z	cx			
+	z	dx			
 
 	increments
-	inc	ax			0x0094
-	inc	bx			0x0095
-	inc	cx			0x0096
-	inc	dx			0x0097
+	inc	ax			
+	inc	bx			
+	inc	cx			
+	inc	dx			
 
 	decrements
-	dec	ax			0x0098
-	dec	bx			0x0099
-	dec	cx			0x009a
-	dec	dx			0x009b
-
-	mov memory with immediate value
-	mov	ax,[value16]	0x009c
-	mov	bx,[value16]	0x009e
-	mov	cx,[value16]	0x009f
-	mov	dx,[value16]	0x00a0
-
-	mov	[value16],ax	0x00a1
-	mov	[value16],bx	0x00a2
-	mov	[value16],cx	0x00a3
-	mov	[value16],dx	0x00a4
-	
-	after thought math instructions
-	add	ax,value16		0x00a5
-	add	bx,value16		0x00a6
-	add	cx,value16		0x00a7
-	add	dx,value16		0x00a8
-	
-	sub	ax,value16		0x00a9
-	sub	bx,value16		0x00aa
-	sub	cx,value16		0x00ab
-	sub	dx,value16		0x00ac
+	dec	ax			
+	dec	bx			
+	dec	cx			
+	dec	dx	
 
 Graphics instructions:
 
