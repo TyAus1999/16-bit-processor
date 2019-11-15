@@ -3,80 +3,69 @@ Registers: ax,bx,cx,dx, without x is low byte
 	
 	56 mov instructions
 	
-	mov	ax,value16		
-	mov	bx,value16		
-	mov	cx,value16		
-	mov	dx,value16		
-                        
-	mov	ax,bx			
-	mov	ax,cx			
-	mov	ax,dx			
-	                    
-	mov	bx,ax			
-	mov	bx,cx			
-	mov	bx,dx			
-                        
-	mov	cx,ax			
-	mov	cx,bx			
-	mov	cx,dx				
-	                    
-	mov	dx,ax			
-	mov	dx,bx			
-	mov	dx,cx			
-	                    
-	mov	ax,[ax]			
-	mov	ax,[bx]			
-	mov	ax,[cx]				
-	mov	ax,[dx]			
-	                    
-	mov	bx,[ax]				
-	mov	bx,[bx]			
-	mov	bx,[cx]			
-	mov	bx,[dx]			
-                        
-	mov	cx,[ax]			
-	mov	cx,[bx]				
-	mov	cx,[cx]			
-	mov	cx,[dx]			
-                        
-	mov	dx,[ax]			
-	mov	dx,[bx]			
-	mov	dx,[cx]			
-	mov	dx,[dx]			
-                        
-	mov	[ax],ax			
-	mov	[ax],bx			
-	mov	[ax],cx			
-	mov	[ax],dx			
-                        
-	mov	[bx],ax			
-	mov	[bx],bx			
-	mov	[bx],cx			
-	mov	[bx],dx			
-                        
-	mov	[cx],ax			
-	mov	[cx],bx			
-	mov	[cx],cx			
-	mov	[cx],dx			
-                    
-	mov	[dx],ax		
-	mov	[dx],bx		
-	mov	[dx],cx		
-	mov	[dx],dx	
-
-	mov	ax,[value16]	
-	mov	bx,[value16]	
-	mov	cx,[value16]	
-	mov	dx,[value16]	
-
-	mov	[value16],ax	
-	mov	[value16],bx	
-	mov	[value16],cx	
-	mov	[value16],dx	
+	mov	ax,value16		0x80
+	mov	ax,bx			0x80
+	mov	ax,cx			0x80
+	mov	ax,dx			0x80
+	mov	ax,[value16]	0x80
+	mov	ax,[ax]			0x80
+	mov	ax,[bx]			0x80
+	mov	ax,[cx]			0x80
+	mov	ax,[dx]			0x80
+	mov	[ax],ax			0x80
+	mov	[ax],bx			0x80
+	mov	[ax],cx			0x80
+	mov	[ax],dx			0x80
+	mov	[value16],ax	0x80
+	
+	mov	bx,value16		0x80
+	mov	bx,ax			0x80
+	mov	bx,cx			0x80
+	mov	bx,dx			0x80
+	mov	bx,[value16]	0x80
+	mov	bx,[ax]			0x80
+	mov	bx,[bx]			0x80
+	mov	bx,[cx]			0x80
+	mov	bx,[dx]			0x80
+	mov	[bx],ax			0x80
+	mov	[bx],bx			0x80
+	mov	[bx],cx			0x80
+	mov	[bx],dx			0x80
+	mov	[value16],bx	0x80
+	
+	mov	cx,value16		0x80
+	mov	cx,ax			0x80
+	mov	cx,bx			0x80
+	mov	cx,dx			0x80
+	mov	cx,[value16]	0x80
+	mov	cx,[ax]			0x80
+	mov	cx,[bx]			0x80
+	mov	cx,[cx]			0x80
+	mov	cx,[dx]			0x80
+	mov	[cx],ax			0x80
+	mov	[cx],bx			0x80
+	mov	[cx],cx			0x80
+	mov	[cx],dx			0x80
+	mov	[value16],cx	0x80
+	
+	mov	dx,value16		0x80                
+	mov	dx,ax			0x80
+	mov	dx,bx			0x80
+	mov	dx,cx			0x80
+	mov	dx,[value16]	0x80	
+	mov	dx,[ax]			0x80
+	mov	dx,[bx]			0x80
+	mov	dx,[cx]			0x80
+	mov	dx,[dx]			0x80
+	mov	[dx],ax		    0x80
+	mov	[dx],bx		    0x80
+	mov	[dx],cx		    0x80
+	mov	[dx],dx	        0x80
+	mov	[value16],dx	0x80
 	
 Arithmatic: dest=dest<Math Operation>reg
 	
-	20 add instructions
+	36 math instructions
 	
 	add	ax,ax		
 	add	ax,bx		
@@ -101,9 +90,7 @@ Arithmatic: dest=dest<Math Operation>reg
 	add	ax,value16		
 	add	bx,value16		
 	add	cx,value16		
-	add	dx,value16	
-
-	16 sub instructions
+	add	dx,value16
 	
 	sub	ax,bx		
 	sub	ax,cx		
